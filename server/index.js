@@ -2,20 +2,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-// khai báo cái folder khác
+// khai báo các folder khác
 const authRouter = require("./routes/auth");
 // khởi tạo
 const PORT = 3000;
 const app = express();
+const DB =
+  "mongodb+srv://nguy3ntanduc:nguy3ntanduc@cluster0.kwpcnfb.mongodb.net/?retryWrites=true&w=majority";
 
 //middleware
+app.use(express.json());
 app.use(authRouter);
 //CLIENT=> SERVER=>CLIENT
 // GET,PUT,POST,DELETE ==> CRUD
 
 //kết nối cơ sở dữ liệu
 mongoose
-  .connect()
+  .connect(DB)
   .then(() => {
     console.log("kết nối DB thành công");
   })
@@ -23,6 +26,6 @@ mongoose
     console.log("kết nối DB thất bại :" + e);
   });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("kết nối thành công :" + PORT);
 });

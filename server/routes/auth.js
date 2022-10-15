@@ -1,14 +1,30 @@
 const express = require("express");
+const User = require("../models/user");
+const bcryptjs = require("bcryptjs");
 
 const authRouter = express.Router();
 
-authRouter.post("/api/signup", (req, res) => {
-  console.log(req.body);
-  const{name,email,password}=req.body;
+authRouter.post("/api/signup", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-  //lấy dữ liệu từ người dùng
-  //gửi dữ liệu dó lên database
-  //trả lại dữ liệu đó để sử dụng
+    const existtingUser = await User.findOne({ email }); //kiểm tra email đã tồn tại hay chưas
+    if (existtingUser) {
+      return res.status(400).json({ msg: "Đã có người sử dụng email này !" });
+    }
+
+    //mã hóa password
+    const hashedPassword = await bcryptjs.hash(password, 8);
+
+    let user = new User({
+      email,
+      password: hashedPassword,
+      name,
+    });
+    user = await user.save();
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
-//1h28
 module.exports = authRouter;
