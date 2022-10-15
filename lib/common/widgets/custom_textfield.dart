@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         hintText: hintText,
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black38),
@@ -19,7 +19,12 @@ class CustomTextField extends StatelessWidget {
           borderSide: BorderSide(color: Colors.black38),
         ),
       ),
-      validator: (value) {},
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Không Được Để Trống $hintText";
+        }
+        return null;
+      },
     );
   }
 }
