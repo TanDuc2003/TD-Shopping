@@ -9,7 +9,6 @@ authRouter.post("/api/signup", (req, res) => {
   //lấy dữ liệu từ người dùng
   //gửi dữ liệu dó lên database
   //trả lại dữ liệu đó để sử dụng
-//nguyen tan duc
 });
 //1h28
 module.exports = authRouter;
