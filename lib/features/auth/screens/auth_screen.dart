@@ -45,6 +45,14 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  void singIpUser() {
+    authServices.signIpUser(
+      context: context,
+      email: _emailController.text,
+      password: _passController.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,7 +162,14 @@ class _AuthScreenState extends State<AuthScreen> {
                               hintText: 'Mật Khẩu',
                             ),
                             const SizedBox(height: 10),
-                            CustomButton(onTap: () {}, text: "Đăng Nhập"),
+                            CustomButton(
+                                onTap: () {
+                                  //đăng nhập
+                                  if (_signInFromKey.currentState!.validate()) {
+                                    singIpUser();
+                                  }
+                                },
+                                text: "Đăng Nhập"),
                             const SizedBox(height: 10),
                           ],
                         ),

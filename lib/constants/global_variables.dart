@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-String uri="http://192.168.0.123:3000";
+String ipconfig="192.168.0.113";
+// String ipconfig="192.168.0.123";
+String uri="http://$ipconfig:3000";
 class GlobalVariables {
   // Màu sắc
   static const appBarGradient = LinearGradient(
