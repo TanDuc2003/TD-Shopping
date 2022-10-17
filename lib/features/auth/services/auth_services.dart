@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:td_shoping/common/widgets/bottom_bar.dart';
 import 'package:td_shoping/constants/error_handling.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/constants/utils.dart';
@@ -76,7 +77,7 @@ class AuthServices {
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           prefs.setString("x-auth-token", jsonDecode(res.body)['token']);
           Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreen.routeName, (route) => false);
+              context, BottomBar.routeName, (route) => false);
         },
       );
     } catch (e) {
