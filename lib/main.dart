@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:td_shoping/common/widgets/bottom_bar.dart';
 import 'package:td_shoping/constants/global_variables.dart';
+import 'package:td_shoping/features/admin/screens/admin_screen.dart';
 import 'package:td_shoping/features/auth/screens/auth_screen.dart';
 import 'package:td_shoping/features/auth/services/auth_services.dart';
 import 'package:td_shoping/provider/user_provider.dart';
@@ -50,7 +51,9 @@ class _MyAppState extends State<MyApp> {
       ),
       onGenerateRoute: (settings) => generateraRoute(settings),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? const BottomBar()
+          ? Provider.of<UserProvider>(context).user.type == 'user'
+              ? const ButtonBar()
+              : const AdminScreen()
           : const AuthScreen(),
     );
   }

@@ -1,5 +1,3 @@
-// ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/widget/bellow_appbar.dart';
@@ -13,6 +11,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
           child: AppBar(
             flexibleSpace: Container(
               decoration: const BoxDecoration(
@@ -53,8 +52,8 @@ class AccountScreen extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          preferredSize: const Size.fromHeight(50)),
+          )),
+      
       body: Column(
         children: const [
           BellowAppBar(),
