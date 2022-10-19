@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/custom_button.dart';
 import 'package:td_shoping/common/widgets/custom_textfield.dart';
+import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/utils.dart';
 import 'package:td_shoping/features/admin/services/admin_services.dart';
 
@@ -46,7 +46,6 @@ class _AddProducScreenState extends State<AddProducScreen> {
     "Thời trang",
     "Sách",
   ];
-
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
       adminServices.sellProduct(
@@ -196,7 +195,9 @@ class _AddProducScreenState extends State<AddProducScreen> {
                 ),
                 const SizedBox(height: 10),
                 CustomButton(
-                  onTap: sellProduct,
+                  onTap: () {
+                    sellProduct();
+                  },
                   text: "Bán",
                 ),
                 const SizedBox(height: 40),

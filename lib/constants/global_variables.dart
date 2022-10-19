@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-String ipconfig = "192.168.0.113";
-// String ipconfig="192.168.0.123";
+// String ipconfig = "192.168.0.113";
+String ipconfig = "192.168.0.123";
 String uri = "http://$ipconfig:3000";
 
 class GlobalVariables {
