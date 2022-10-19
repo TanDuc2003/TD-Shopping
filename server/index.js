@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // khai báo các folder khác
+const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/auth");
 // khởi tạo
 const PORT = 3000;
@@ -13,6 +14,7 @@ const DB =
 //middleware
 app.use(express.json());
 app.use(authRouter);
+app.use(adminRouter);
 //CLIENT=> SERVER=>CLIENT
 // GET,PUT,POST,DELETE ==> CRUD
 

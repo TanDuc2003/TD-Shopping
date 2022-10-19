@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/custom_button.dart';
 import 'package:td_shoping/common/widgets/custom_textfield.dart';
 import 'package:td_shoping/constants/utils.dart';
+import 'package:td_shoping/features/admin/services/admin_services.dart';
 
 import '../../../constants/global_variables.dart';
 
@@ -23,8 +24,11 @@ class _AddProducScreenState extends State<AddProducScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
+  final AdminServices adminServices = AdminServices();
+
   String category = "Điện thoại";
   List<File> images = [];
+  final _addProductFormKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -42,6 +46,20 @@ class _AddProducScreenState extends State<AddProducScreen> {
     "Thời trang",
     "Sách",
   ];
+
+  void sellProduct() {
+    if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+      adminServices.sellProduct(
+        context: context,
+        name: productNameController.text,
+        description: descriptionController.text,
+        price: double.parse(priceController.text),
+        quantity: double.parse(quantityController.text),
+        category: category,
+        images: images,
+      );
+    }
+  }
 
   void selectImage() async {
     var res = await pickImage();
@@ -73,6 +91,7 @@ class _AddProducScreenState extends State<AddProducScreen> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Form(
+          key: _addProductFormKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
@@ -86,12 +105,14 @@ class _AddProducScreenState extends State<AddProducScreen> {
                               e,
                               fit: BoxFit.cover,
                               height: 200,
+                              width: 250,
                             ),
                           );
                         }).toList(),
                         options: CarouselOptions(
                           viewportFraction: 1,
                           height: 200,
+                          enableInfiniteScroll: false,
                         ),
                       )
                     : GestureDetector(
@@ -145,7 +166,7 @@ class _AddProducScreenState extends State<AddProducScreen> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
-                  controller: productNameController,
+                  controller: quantityController,
                   hintText: "Số Lượng",
                 ),
                 const SizedBox(height: 10),
@@ -174,7 +195,10 @@ class _AddProducScreenState extends State<AddProducScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                CustomButton(onTap: () {}, text: "Bán"),
+                CustomButton(
+                  onTap: sellProduct,
+                  text: "Bán",
+                ),
                 const SizedBox(height: 40),
               ],
             ),

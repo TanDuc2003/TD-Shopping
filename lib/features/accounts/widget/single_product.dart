@@ -10,7 +10,7 @@ class SingleProduct extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1.5),
+          border: Border.all(color: Colors.black.withOpacity(0.4), width: 1.5),
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
         ),
