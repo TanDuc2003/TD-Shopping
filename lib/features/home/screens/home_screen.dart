@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:td_shoping/common/widgets/bottom_bar.dart';
 import 'package:td_shoping/features/home/widgets/address_box.dart';
 import 'package:td_shoping/features/home/widgets/carousel_image.dart';
 import 'package:td_shoping/features/home/widgets/deal_of_day.dart';

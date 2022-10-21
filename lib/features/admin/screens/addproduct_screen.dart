@@ -5,7 +5,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/custom_button.dart';
 import 'package:td_shoping/common/widgets/custom_textfield.dart';
-import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/utils.dart';
 import 'package:td_shoping/features/admin/services/admin_services.dart';
 
@@ -26,7 +25,8 @@ class _AddProducScreenState extends State<AddProducScreen> {
   final TextEditingController quantityController = TextEditingController();
   final AdminServices adminServices = AdminServices();
 
-  String category = "Điện thoại";
+  String category = "Điện Thoại";
+
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
 
@@ -40,10 +40,10 @@ class _AddProducScreenState extends State<AddProducScreen> {
   }
 
   List<String> productCategories = [
-    "Điện thoại",
-    "Đồ dùng thiết yếu",
-    "Thiết bị gia dụng",
-    "Thời trang",
+    "Điện Thoại",
+    "Thiết Yếu",
+    "Gia Dụng",
+    "Thời Trang",
     "Sách",
   ];
   void sellProduct() {

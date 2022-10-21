@@ -9,7 +9,6 @@ import 'package:td_shoping/common/widgets/bottom_bar.dart';
 import 'package:td_shoping/constants/error_handling.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/constants/utils.dart';
-import 'package:td_shoping/features/home/screens/home_screen.dart';
 import 'package:td_shoping/models/users.dart';
 import 'package:http/http.dart' as http;
 import 'package:td_shoping/provider/user_provider.dart';
@@ -53,7 +52,7 @@ class AuthServices {
   }
 
   // đăng nhập user
-  void signIpUser({
+  void signInUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -76,6 +75,7 @@ class AuthServices {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           prefs.setString("x-auth-token", jsonDecode(res.body)['token']);
+          showSnackBar(context, "đăng nhập thành công");
           Navigator.pushNamedAndRemoveUntil(
               context, BottomBar.routeName, (route) => false);
         },
