@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:td_shoping/common/widgets/loadding.dart';
+import 'package:td_shoping/features/details_product/screens/products_details_screen.dart';
+import 'package:td_shoping/features/home/services/home_services.dart';
+import 'package:td_shoping/models/product.dart';
 
 class DealOfDay extends StatefulWidget {
   const DealOfDay({super.key});
@@ -8,98 +12,100 @@ class DealOfDay extends StatefulWidget {
 }
 
 class _DealOfDayState extends State<DealOfDay> {
+  Product? product;
+  final HomeServices homeServices = HomeServices();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDealOfDay();
+  }
+
+  void fetchDealOfDay() async {
+    product = await homeServices.fetchDealOfDay(context: context);
+    setState(() {});
+  }
+
+  void navigaToDetailsScreen() {
+    Navigator.pushNamed(
+      context,
+      ProductDetailsScreen.routeName,
+      arguments: product,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 10, top: 15),
-          child: const Text(
-            "Ưu dãi trong ngày",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Image.network(
-          "https://macone.vn/wp-content/uploads/2020/11/macbook-pro-spacegray-m1-2020.jpeg",
-          fit: BoxFit.fitHeight,
-          height: 235,
-        ),
-        Container(
-          padding: const EdgeInsets.only(left: 15),
-          alignment: Alignment.topLeft,
-          child: const Text(
-            "₫79.000",
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 15, top: 5, right: 40),
-          child: const Text(
-            "MacBook Pro 2020 13 inch (MYD92/MYDC2) Apple M1 8GB RAM 512GB SSD – Like New",
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-              Image.network(
-                "https://macone.vn/wp-content/uploads/2018/11/MacBook-Pro-1322-M1.jpg",
-                fit: BoxFit.fitWidth,
-                width: 100,
-                height: 100,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 15).copyWith(left: 15),
-          alignment: Alignment.topLeft,
-          child: Text(
-            "Xem tất cả dell",
-            style: TextStyle(
-              color: Colors.cyan[800],
-            ),
-          ),
-        )
-      ],
-    );
+    return product == null
+        ? const Loading()
+        : product!.name.isEmpty
+            ? const SizedBox()
+            : GestureDetector(
+                onTap: navigaToDetailsScreen,
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(left: 10, top: 15),
+                      child: const Text(
+                        "Ưu dãi trong ngày",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Image.network(
+                      product!.images[0],
+                      fit: BoxFit.fitHeight,
+                      height: 235,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 15),
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        "₫79.000",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding:
+                          const EdgeInsets.only(left: 15, top: 5, right: 40),
+                      child: const Text(
+                        "MacBook Pro 2020 13 inch (MYD92/MYDC2) Apple M1 8GB RAM 512GB SSD – Like New",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: product!.images
+                              .map(
+                                (e) => Image.network(
+                                  e,
+                                  fit: BoxFit.fitWidth,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              )
+                              .toList()),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15)
+                          .copyWith(left: 15),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Xem tất cả dell",
+                        style: TextStyle(
+                          color: Colors.cyan[800],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
   }
 }

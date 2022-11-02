@@ -1,8 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/screens/account_screen.dart';
+import 'package:td_shoping/features/cart/screen/cart_screen.dart';
 import 'package:td_shoping/features/home/screens/home_screen.dart';
+import 'package:td_shoping/provider/user_provider.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -14,27 +17,24 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _page = 0;
-  int nb = 1;
   double bottomBarWith = 42;
   double bottomBarBorderWith = 5;
 
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const Center(
-      child: Text("giỏ hàng page"),
-    ),
+    const CartScreen(),
   ];
 
   void updatePage(int page) {
     setState(() {
       _page = page;
-      nb++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -108,8 +108,8 @@ class _BottomBarState extends State<BottomBar> {
                   elevation: 0,
                   animationType: BadgeAnimationType.slide,
                   badgeContent: Text(
-                    "$nb",
-                    style: TextStyle(color: Colors.white),
+                    userCartLen.toString(),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   badgeColor: Colors.pink[400]!,
                   child: Icon(

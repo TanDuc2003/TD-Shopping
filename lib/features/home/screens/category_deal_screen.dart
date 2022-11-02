@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
+import 'package:td_shoping/features/details_product/screens/products_details_screen.dart';
 import 'package:td_shoping/features/home/services/home_services.dart';
 import 'package:td_shoping/models/product.dart';
 
@@ -98,6 +99,11 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                       return GestureDetector(
                         onTap: () {
                           print("chi tiết sản phẩm");
+                          Navigator.pushNamed(
+                            context,
+                            ProductDetailsScreen.routeName,
+                            arguments: product,
+                          );
                         },
                         child: Column(
                           children: [
@@ -137,7 +143,6 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                           ],
                         ),
                       );
-                      ;
                     },
                   ),
                 ),

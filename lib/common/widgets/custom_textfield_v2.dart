@@ -39,7 +39,7 @@ class _CustomTextFielV2State extends State<CustomTextFielV2> {
         child: Material(
           elevation: 8,
           shadowColor: Colors.black87,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
           child: TextFormField(
             style: const TextStyle(
               color: Colors.black,

@@ -1,30 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:td_shoping/common/widgets/loadding.dart';
+import 'package:td_shoping/features/details_product/screens/products_details_screen.dart';
 import 'package:td_shoping/features/home/widgets/address_box.dart';
-import 'package:td_shoping/features/home/widgets/carousel_image.dart';
-import 'package:td_shoping/features/home/widgets/deal_of_day.dart';
-import 'package:td_shoping/features/home/widgets/top_categories.dart';
-import 'package:td_shoping/features/search/screens/search_screen.dart';
-import 'package:td_shoping/provider/user_provider.dart';
+import 'package:td_shoping/features/search/services/search_services.dart';
+import 'package:td_shoping/features/search/widgets/search_product.dart';
+import 'package:td_shoping/models/product.dart';
 
 import '../../../constants/global_variables.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = '/home';
-  const HomeScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  static const String routeName = '/search-screen';
+  final String searchQuery;
+  const SearchScreen({
+    super.key,
+    required this.searchQuery,
+  });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
+  List<Product>? products;
+  final SearchServices searchServices = SearchServices();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSearchProducts();
+  }
+
+  void fetchSearchProducts() async {
+    products = await searchServices.fetchSearchProducts(
+      context: context,
+      searchQuery: widget.searchQuery,
+    );
+    setState(() {});
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -38,9 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 42,
-                  margin: const EdgeInsets.only(left: 15),
                   child: Material(
                     borderRadius: BorderRadius.circular(7),
                     elevation: 1,
@@ -49,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: InputDecoration(
                           prefixIcon: InkWell(
                             onTap: () {
-                              //search in voice
+                              //search
                             },
                             child: const Padding(
                               padding: EdgeInsets.only(left: 6),
@@ -97,20 +115,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-     
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: const [
-            AddressBox(),
-            SizedBox(height: 10),
-            Categories(),
-            SizedBox(height: 10),
-            CarouselImage(),
-            DealOfDay(),
-          ],
-        ),
-      ),
+      body: products == null
+          ? const Loading()
+          : Column(
+              children: [
+                const AddressBox(),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products!.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              ProductDetailsScreen.routeName,
+                              arguments: products![index],
+                            );
+                          },
+                          child: SearchProduct(product: products![index]));
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:td_shoping/features/auth/components/animation/animation.dart';
 
 import 'animation/heper_funcitions.dart';
@@ -27,13 +28,21 @@ class _TopTextState extends State<TopText> {
   Widget build(BuildContext context) {
     return HelperFunctions.wrapWithAnimatedBuilder(
       animation: ChangeScreenAnimation.topTextAnimation,
-      child: Text(
-        ChangeScreenAnimation.currentScreen == Screens.createAccount
-            ? 'Đăng Ký\n      Tài Khoản'
-            : 'Welcome Back\n       Đăng Nhập',
-        style: const TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.w600,
+      child: Shimmer.fromColors(
+        baseColor: Colors.black,
+        period: const Duration(milliseconds: 4000),
+        direction: ChangeScreenAnimation.currentScreen == Screens.createAccount
+            ? ShimmerDirection.ltr
+            : ShimmerDirection.rtl,
+        highlightColor: Colors.red,
+        child: Text(
+          ChangeScreenAnimation.currentScreen == Screens.createAccount
+              ? 'Đăng Ký\n      Tài Khoản'
+              : 'Welcome Back\n       Đăng Nhập',
+          style: const TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );

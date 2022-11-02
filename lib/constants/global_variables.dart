@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-// String ipconfig = "192.168.0.113";
-String ipconfig = "192.168.0.123";
-String uri = "http://$ipconfig:3000";
+String uri = "https://td-shoping-server.herokuapp.com";
+
+String ipconfig = "192.168.0.113";
+// String ipconfig = "192.168.0.123";
+// String uri = "http://$ipconfig:3000";
 
 class GlobalVariables {
   // Màu sắc
+  static String igError =
+      "https://cuocsongdungnghia.com/wp-content/uploads/2018/05/loi-hinh-anh.jpg";
   static const appBarGradient = LinearGradient(
     colors: [
       Color.fromARGB(255, 29, 201, 192),

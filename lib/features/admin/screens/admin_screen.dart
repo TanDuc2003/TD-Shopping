@@ -1,9 +1,7 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:td_shoping/features/admin/screens/post_screen.dart';
 import '../../../constants/global_variables.dart';
-import '../../accounts/screens/account_screen.dart';
-import '../../home/screens/home_screen.dart';
+
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});

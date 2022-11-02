@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
+import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/widget/single_product.dart';
 import 'package:td_shoping/features/admin/screens/addproduct_screen.dart';
 import 'package:td_shoping/features/admin/services/admin_services.dart';
@@ -60,7 +61,9 @@ class _PostScreenState extends State<PostScreen> {
                       SizedBox(
                         height: 130,
                         child: SingleProduct(
-                          image: productData.images[0],
+                          image: productData.images.isEmpty
+                              ? GlobalVariables.igError
+                              : productData.images[0],
                         ),
                       ),
                       Row(
