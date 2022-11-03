@@ -47,65 +47,68 @@ class _CartProductState extends State<CartProduct> {
       child: Column(
         children: [
           Container(
-            color: Colors.amber,
             height: 180,
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                Image.network(
-                  product.images.isEmpty
-                      ? GlobalVariables.igError
-                      : product.images[0],
-                  fit: BoxFit.contain,
-                  width: 135,
-                  height: 135,
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: 235,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        product.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+            margin: const EdgeInsets.only(left: 10),
+            child: FittedBox(
+              child: Row(
+                children: [
+                  Image.network(
+                    product.images.isEmpty
+                        ? GlobalVariables.igError
+                        : product.images[0],
+                    fit: BoxFit.contain,
+                    width: 135,
+                    height: 135,
+                  ),
+                  FittedBox(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 235,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            product.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 2,
+                          ),
                         ),
-                        maxLines: 2,
-                      ),
-                    ),
-                    Container(
-                      width: 235,
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 10),
-                      child: Text(
-                        "₫${product.price}",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                        Container(
+                          width: 235,
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 10),
+                          child: Text(
+                            "₫${product.price}",
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                            maxLines: 2,
+                          ),
                         ),
-                        maxLines: 2,
-                      ),
+                        Container(
+                          width: 235,
+                          padding: const EdgeInsets.only(left: 10),
+                          child: const Text(
+                            "FreeShip trong vòng 10km",
+                          ),
+                        ),
+                        Container(
+                          width: 235,
+                          padding: const EdgeInsets.only(left: 10, top: 5),
+                          child: const Text(
+                            "Còn Hàng",
+                            style: TextStyle(color: Colors.teal),
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: 235,
-                      padding: const EdgeInsets.only(left: 10),
-                      child: const Text(
-                        "FreeShip trong vòng 10km",
-                      ),
-                    ),
-                    Container(
-                      width: 235,
-                      padding: const EdgeInsets.only(left: 10, top: 5),
-                      child: const Text(
-                        "Còn Hàng",
-                        style: TextStyle(color: Colors.teal),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
           Container(
