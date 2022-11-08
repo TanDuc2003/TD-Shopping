@@ -104,21 +104,28 @@ class _BottomBarState extends State<BottomBar> {
                     ),
                   ),
                 ),
-                child: Badge(
-                  elevation: 0,
-                  animationType: BadgeAnimationType.slide,
-                  badgeContent: Text(
-                    userCartLen.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  badgeColor: Colors.pink[400]!,
-                  child: Icon(
-                    Icons.shopping_cart_outlined,
-                    color: _page == 2
-                        ? GlobalVariables.selectedNavBarColor
-                        : GlobalVariables.unselectedNavBarColor,
-                  ),
-                ),
+                child: userCartLen == 0
+                    ? Icon(
+                        Icons.shopping_cart_outlined,
+                        color: _page == 2
+                            ? GlobalVariables.selectedNavBarColor
+                            : GlobalVariables.unselectedNavBarColor,
+                      )
+                    : Badge(
+                        elevation: 0,
+                        animationType: BadgeAnimationType.slide,
+                        badgeContent: Text(
+                          userCartLen.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        badgeColor: Colors.pink[400]!,
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: _page == 2
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.unselectedNavBarColor,
+                        ),
+                      ),
               ),
               label: ""),
         ],

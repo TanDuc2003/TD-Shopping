@@ -3,6 +3,7 @@ import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/services/account_services.dart';
 import 'package:td_shoping/features/accounts/widget/single_product.dart';
+import 'package:td_shoping/features/details_orders/screens/orders_details.dart';
 import 'package:td_shoping/models/orders.dart';
 
 class Orders extends StatefulWidget {
@@ -67,8 +68,17 @@ class _OrdersState extends State<Orders> {
                   scrollDirection: Axis.horizontal,
                   itemCount: orders!.length,
                   itemBuilder: ((context, index) {
-                    return SingleProduct(
-                      image: orders![index].products[0].images[0],
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          OrderDetailsScreen.routeName,
+                          arguments: orders![index],
+                        );
+                      },
+                      child: SingleProduct(
+                        image: orders![index].products[0].images[0],
+                      ),
                     );
                   }),
                 ),
