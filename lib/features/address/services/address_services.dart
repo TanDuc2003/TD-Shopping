@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -11,15 +12,16 @@ import 'package:td_shoping/models/users.dart';
 import 'package:td_shoping/provider/user_provider.dart';
 
 class AddressServices {
-  void savaUserAddress({
+  void saveUserAddress({
     required BuildContext context,
     required String address,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     try {
-      http.Response response = await http.post(
+      http.Response res = await http.post(
         Uri.parse('$uri/api/save-user-address'),
-        headers: <String, String>{
+        headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
@@ -27,14 +29,16 @@ class AddressServices {
           'address': address,
         }),
       );
-
+      print("xxxxxx");
+      print('$uri/api/order');
       httpErrorHandle(
-        response: response,
+        response: res,
         context: context,
         onSuccess: () {
           User user = userProvider.user.copyWith(
-            address: jsonDecode(response.body)['address'],
+            address: jsonDecode(res.body)['address'],
           );
+
           userProvider.setUserFromModel(user);
         },
       );
@@ -50,28 +54,24 @@ class AddressServices {
     required double totalSum,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    List<Product> productList = [];
+
     try {
-      http.Response res = await http.post(
-        Uri.parse('$uri/api/order'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
-        },
-        body: jsonEncode(
-          {
+      http.Response res = await http.post(Uri.parse('$uri/api/order'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token,
+          },
+          body: jsonEncode({
             'cart': userProvider.user.cart,
             'address': address,
             'totalPrice': totalSum,
-          },
-        ),
-      );
+          }));
 
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(context, "Đơn hàng của bạn được đặt thành công");
+          showSnackBar(context, 'Đơn hàng của bạn đã được đặt thành công ❤ ');
           User user = userProvider.user.copyWith(
             cart: [],
           );

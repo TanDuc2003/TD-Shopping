@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:momo_vn/momo_vn.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
@@ -31,6 +33,10 @@ class _AddressScreenState extends State<AddressScreen> {
 
   List<PaymentItem> paymentItems = [];
 
+  // late MomoVn _momoPay;
+  // late PaymentResponse _momoPaymentResult;
+  // ignore: non_constant_identifier_names
+  late String _paymentStatus;
   @override
   void initState() {
     super.initState();
@@ -39,7 +45,18 @@ class _AddressScreenState extends State<AddressScreen> {
       label: "Tổng Tiền",
       status: PaymentItemStatus.final_price,
     ));
+
+    // _momoPay = MomoVn();
+    // _momoPay.on(MomoVn.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    // _momoPay.on(MomoVn.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    // _paymentStatus = "";
+    // initPlatformState();
   }
+
+  // Future<void> initPlatformState() async {
+  //   if (!mounted) return;
+  //   setState(() {});
+  // }
 
   @override
   void dispose() {
@@ -48,6 +65,49 @@ class _AddressScreenState extends State<AddressScreen> {
     pinController.dispose();
     cityController.dispose();
     areaController.dispose();
+
+    // _momoPay.clear();
+  }
+
+// thanh toán khi nhận hàng
+  void onPayAtHome(String addressFromProvider) {
+    addressTobeUser = "";
+    bool isForm = flatBuildingController.text.isNotEmpty ||
+        pinController.text.isNotEmpty ||
+        cityController.text.isNotEmpty ||
+        areaController.text.isNotEmpty;
+    if (isForm) {
+      if (_addressFormKey.currentState!.validate()) {
+        addressTobeUser =
+            '${flatBuildingController.text},${areaController.text},${cityController.text}-${pinController.text}';
+        if (Provider.of<UserProvider>(context, listen: false)
+            .user
+            .address
+            .isEmpty) {
+          addressServices.saveUserAddress(
+              context: context, address: addressTobeUser);
+        }
+        addressServices.placeOrder(
+          context: context,
+          address: addressTobeUser,
+          totalSum: double.parse(widget.totalAmout),
+        );
+      } else {
+        throw Exception("vui lòng nhập đúng");
+      }
+    } else if (addressFromProvider.isNotEmpty) {
+      addressTobeUser = addressFromProvider;
+    } else {
+      showSnackBar(context, "Lỗi ");
+    }
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        setState(() {
+          Navigator.pop(context);
+        });
+      },
+    );
   }
 
   void onApplePayResult(res) {
@@ -55,7 +115,7 @@ class _AddressScreenState extends State<AddressScreen> {
         .user
         .address
         .isEmpty) {
-      addressServices.savaUserAddress(
+      addressServices.saveUserAddress(
           context: context, address: addressTobeUser);
     }
     addressServices.placeOrder(
@@ -70,7 +130,7 @@ class _AddressScreenState extends State<AddressScreen> {
         .user
         .address
         .isEmpty) {
-      addressServices.savaUserAddress(
+      addressServices.saveUserAddress(
           context: context, address: addressTobeUser);
     }
     addressServices.placeOrder(
@@ -97,7 +157,7 @@ class _AddressScreenState extends State<AddressScreen> {
     } else if (addressFromProvider.isNotEmpty) {
       addressTobeUser = addressFromProvider;
     } else {
-      showSnackBar(context, "Lôi");
+      showSnackBar(context, "Lỗi ");
     }
   }
 
@@ -195,10 +255,126 @@ class _AddressScreenState extends State<AddressScreen> {
                 margin: const EdgeInsets.only(top: 15),
                 type: GooglePayButtonType.buy,
               ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[100],
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Colors.black.withOpacity(0.5), width: 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () => onPayAtHome(address),
+                  child: const Text(
+                    "Thanh Toán Khi Nhận Hàng",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 165, 0, 100),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Colors.black.withOpacity(0.5), width: 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Chức năng thanh toán momo'),
+                            content: const Text(
+                                'Thanh toán momo sễ được cập nhật trong thời gian sắp tới '),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          )),
+                  child: Row(
+                    children: const [
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Image(
+                            image: AssetImage("assets/images/logo-momo.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Text(
+                        "Thanh Toán Bằng Momo",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  // void _setState() {
+  //   _paymentStatus = 'Đã chuyển thanh toán';
+  //   if (_momoPaymentResult.isSuccess == true) {
+  //     _paymentStatus += "\nTình trạng: Thành công.";
+  //     _paymentStatus +=
+  //         "\nSố điện thoại: " + _momoPaymentResult.phoneNumber.toString();
+  //     _paymentStatus += "\nExtra: " + _momoPaymentResult.extra!;
+  //     _paymentStatus += "\nToken: " + _momoPaymentResult.token.toString();
+  //   } else {
+  //     _paymentStatus += "\nTình trạng: Thất bại.";
+  //     _paymentStatus += "\nExtra: " + _momoPaymentResult.extra.toString();
+  //     _paymentStatus += "\nMã lỗi: " + _momoPaymentResult.status.toString();
+  //   }
+  // }
+
+  // void _handlePaymentSuccess(PaymentResponse response) {
+  //   setState(() {
+  //     _momoPaymentResult = response;
+  //     _setState();
+  //   });
+  //   Fluttertoast.showToast(
+  //       msg: "THÀNH CÔNG: " + response.phoneNumber.toString(),
+  //       toastLength: Toast.LENGTH_SHORT);
+  // }
+
+  // void _handlePaymentError(PaymentResponse response) {
+  //   setState(() {
+  //     _momoPaymentResult = response;
+  //     _setState();
+  //   });
+  //   Fluttertoast.showToast(
+  //       msg: "THẤT BẠI: " + response.message.toString(),
+  //       toastLength: Toast.LENGTH_SHORT);
+  // }
 }
