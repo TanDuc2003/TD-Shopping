@@ -22,13 +22,18 @@ class _CartScreenState extends State<CartScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
-  void navigateToAddressScreen() {
-    Navigator.pushNamed(context, AddressScreen.routeName);
+  void navigateToAddressScreen(int sum) {
+    Navigator.pushNamed(context, AddressScreen.routeName,
+        arguments: sum.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
+    int sum = 0;
+    user.cart
+        .map((e) => sum += e['quantity'] * e['product']['price'] as int)
+        .toList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -107,9 +112,8 @@ class _CartScreenState extends State<CartScreen> {
             const AddressBox(),
             const CartSubtotal(),
             CustomButton(
-              onTap: navigateToAddressScreen,
+              onTap: () => navigateToAddressScreen(sum),
               textSize: 18,
-              color: Colors.yellow[600],
               text: "Mua Ngay (${user.cart.length} món)",
             ),
             const SizedBox(height: 15),

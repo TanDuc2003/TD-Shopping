@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +28,6 @@ class AddressServices {
           'address': address,
         }),
       );
-      print("xxxxxx");
-      print('$uri/api/order');
       httpErrorHandle(
         response: res,
         context: context,
@@ -110,7 +107,6 @@ class AddressServices {
         },
       );
     } catch (e) {
-      print(e.toString());
       showSnackBar(context, e.toString());
     }
   }

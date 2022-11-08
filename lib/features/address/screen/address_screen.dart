@@ -97,6 +97,19 @@ class _AddressScreenState extends State<AddressScreen> {
       }
     } else if (addressFromProvider.isNotEmpty) {
       addressTobeUser = addressFromProvider;
+      print(addressTobeUser);
+      if (Provider.of<UserProvider>(context, listen: false)
+          .user
+          .address
+          .isEmpty) {
+        addressServices.saveUserAddress(
+            context: context, address: addressTobeUser);
+      }
+      addressServices.placeOrder(
+        context: context,
+        address: addressTobeUser,
+        totalSum: double.parse(widget.totalAmout),
+      );
     } else {
       showSnackBar(context, "Lỗi ");
     }
