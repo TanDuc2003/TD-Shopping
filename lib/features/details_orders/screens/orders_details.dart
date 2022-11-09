@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:td_shoping/common/widgets/custom_button.dart';
+import 'package:td_shoping/features/admin/services/admin_services.dart';
 import 'package:td_shoping/models/orders.dart';
+import 'package:td_shoping/provider/user_provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../search/screens/search_screen.dart';
@@ -16,8 +20,24 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   int currentStep = 0;
+  final AdminServices adminServices = AdminServices();
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  //chỉ dành cho admin
+  void changeOrderStatus(int status) {
+    adminServices.changeOrderStatus(
+      context: context,
+      status: status + 1,
+      order: widget.order,
+      onSuccess: () {
+        setState(() {
+          currentStep += 1;
+        });
+      },
+    );
   }
 
   @override
@@ -28,6 +48,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -194,7 +215,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 child: Stepper(
                   currentStep: currentStep,
                   controlsBuilder: (context, details) {
-                    return SizedBox();
+                    if (user.type == 'admin') {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        height: 30,
+                        child: currentStep == 3
+                            ? null
+                            : CustomButton(
+                                color: Colors.green[400],
+                                onTap: () {
+                                  changeOrderStatus(details.currentStep);
+                                },
+                                text: "Xong"),
+                      );
+                    }
+                    return const SizedBox();
                   },
                   steps: [
                     Step(
@@ -226,8 +261,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                     Step(
                       title: const Text("Đã Giao Hàng"),
-                      content:
-                          const Text("Đơn hàng của bạn giao thành công.Cảm ơn"),
+                      content: const Text(
+                          "Đơn hàng của bạn giao thành công.Cảm ơn bạn đã mua hàng ❤❤❤"),
                       isActive: currentStep >= 3,
                       state: currentStep > 3
                           ? StepState.complete

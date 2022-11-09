@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
@@ -35,7 +33,6 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
       category: widget.category,
     );
     setState(() {});
-    print("$uri/api/products?category=${widget.category}");
   }
 
   @override
@@ -98,7 +95,6 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                       final product = productList![index];
                       return GestureDetector(
                         onTap: () {
-                          print("chi tiết sản phẩm");
                           Navigator.pushNamed(
                             context,
                             ProductDetailsScreen.routeName,

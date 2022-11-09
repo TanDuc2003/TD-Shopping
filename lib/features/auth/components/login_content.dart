@@ -112,7 +112,6 @@ class _LoginContentState extends State<LoginContent>
       padding: const EdgeInsets.symmetric(horizontal: 110),
       child: TextButton(
         onPressed: () {
-          print("quên mật khẩu");
         },
         child: const Text(
           'Quên mật khẩu ?',

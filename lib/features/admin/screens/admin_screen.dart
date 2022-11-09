@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:td_shoping/features/admin/screens/analytics_screen.dart';
+import 'package:td_shoping/features/admin/screens/orders_screen.dart';
 import 'package:td_shoping/features/admin/screens/post_screen.dart';
 import '../../../constants/global_variables.dart';
-
+import '../../accounts/services/account_services.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -15,15 +17,12 @@ class _AdminScreenState extends State<AdminScreen> {
   int nb = 1;
   double bottomBarWith = 42;
   double bottomBarBorderWith = 5;
+  final AccountServices accountServices = AccountServices();
 
   List<Widget> pages = [
     const PostScreen(),
-    const Center(
-      child: Text("trang quản trị"),
-    ),
-    const Center(
-      child: Text("giỏ hàng page"),
-    ),
+    const AnalyticScreen(),
+    const OrderScreens(),
   ];
 
   void updatePage(int page) {
@@ -48,15 +47,6 @@ class _AdminScreenState extends State<AdminScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  "assets/images/amazon_in.png",
-                  width: 120,
-                  height: 45,
-                  color: Colors.black,
-                ),
-              ),
-              Container(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: const Text(
                   "Admin",
@@ -65,7 +55,10 @@ class _AdminScreenState extends State<AdminScreen> {
                     color: Colors.black,
                   ),
                 ),
-              )
+              ),
+              IconButton(
+                  onPressed: () => accountServices.logOut(context),
+                  icon: const Icon(Icons.logout))
             ],
           ),
         ),

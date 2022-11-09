@@ -9,11 +9,13 @@ import 'package:td_shoping/provider/user_provider.dart';
 import 'package:td_shoping/router.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-    )
-  ], child: const MyApp()));
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => UserProvider(),
+      )
+    ], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -55,8 +57,7 @@ class _MyAppState extends State<MyApp> {
               ? const BottomBar()
               : const AdminScreen()
           : const AuthScreen(),
-      // home: const AuthScreen(),
     );
   }
 }
-// 10:28:50
+// 10:45:29 

@@ -36,7 +36,7 @@ class _AddressScreenState extends State<AddressScreen> {
   // late MomoVn _momoPay;
   // late PaymentResponse _momoPaymentResult;
   // ignore: non_constant_identifier_names
-  late String _paymentStatus;
+  // late String _paymentStatus;
   @override
   void initState() {
     super.initState();
@@ -97,7 +97,6 @@ class _AddressScreenState extends State<AddressScreen> {
       }
     } else if (addressFromProvider.isNotEmpty) {
       addressTobeUser = addressFromProvider;
-      print(addressTobeUser);
       if (Provider.of<UserProvider>(context, listen: false)
           .user
           .address
