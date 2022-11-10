@@ -47,11 +47,25 @@ class _OrderScreensState extends State<OrderScreens> {
                       arguments: orderData,
                     );
                   },
-                  child: SizedBox(
-                    height: 140,
-                    child: SingleProduct(
-                      image: orderData.products[0].images[0],
-                    ),
+                  child: Column(
+                    children: [
+                      SingleProduct(
+                        index: index,
+                        image: orderData.products[0].images[0],
+                      ),
+                      if (orderData.status == 0)
+                        const Text("Đang Đóng Gói",
+                            style: TextStyle(color: Colors.green))
+                      else if (orderData.status == 1)
+                        const Text("Shiper Đã Lấy",
+                            style: TextStyle(color: Colors.green))
+                      else if (orderData.status == 2)
+                        const Text("Đang Vận Chuyển",
+                            style: TextStyle(color: Colors.green))
+                      else if (orderData.status == 3)
+                        const Text("Giao Thành Công",
+                            style: TextStyle(color: Colors.green))
+                    ],
                   ),
                 );
               },

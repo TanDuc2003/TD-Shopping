@@ -14,7 +14,7 @@ class AnalyticScreen extends StatefulWidget {
 
 class _AnalyticScreenState extends State<AnalyticScreen> {
   final AdminServices adminServices = AdminServices();
-  int? totalSales;
+  int? totalSales, dienthoaiEarnings;
   List<Sales>? earnings;
   @override
   void initState() {
@@ -34,19 +34,43 @@ class _AnalyticScreenState extends State<AnalyticScreen> {
     return earnings == null || totalSales == null
         ? const Loading()
         : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '$totalSales',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 10),
+              const Center(
+                child: Text(
+                  "THỐNG KÊ DOANH SỐ",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  'Tổng Doanh Thu : $totalSales Vnđ',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 100),
               SizedBox(
-                height: 250,
+                height: 400,
                 child: CategoryProductCharts(
                   seriesList: [
                     charts.Series(
+                      colorFn: (datum, index) =>
+                          charts.MaterialPalette.red.shadeDefault,
+                      areaColorFn: (datum, index) =>
+                          charts.MaterialPalette.cyan.shadeDefault,
+                      fillColorFn: (datum, index) =>
+                          charts.MaterialPalette.red.shadeDefault,
                       id: 'Sales',
                       data: earnings!,
                       domainFn: (Sales sales, _) => sales.label,

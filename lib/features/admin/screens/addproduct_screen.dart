@@ -24,9 +24,11 @@ class _AddProducScreenState extends State<AddProducScreen> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final AdminServices adminServices = AdminServices();
+  final ScrollController controller = ScrollController();
+  bool checkScroll = false;
+
 
   String category = "Điện Thoại";
-
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
 
@@ -197,6 +199,7 @@ class _AddProducScreenState extends State<AddProducScreen> {
                 CustomButton(
                   onTap: () {
                     sellProduct();
+                    setState(() {});
                   },
                   text: "Bán",
                 ),

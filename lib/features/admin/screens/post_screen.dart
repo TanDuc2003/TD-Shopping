@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/widget/single_product.dart';
@@ -16,6 +17,29 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   List<Product>? products;
   final AdminServices adminServices = AdminServices();
+  RefreshController refreshC = RefreshController();
+
+  void refreshData() async {
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      fetchAllProducts();
+      setState(() {});
+      refreshC.refreshCompleted();
+    } catch (e) {
+      refreshC.refreshFailed();
+    }
+  }
+
+  void loadData() async {
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      fetchAllProducts();
+      setState(() {});
+      refreshC.loadComplete();
+    } catch (e) {
+      refreshC.loadFailed();
+    }
+  }
 
   @override
   void initState() {
@@ -48,53 +72,111 @@ class _PostScreenState extends State<PostScreen> {
     return products == null
         ? const Loading()
         : Scaffold(
-            body: GridView.builder(
-              itemCount: products!.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemBuilder: (context, index) {
-                final productData = products![index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: 2, right: 8, left: 8),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 130,
-                        child: SingleProduct(
-                          image: productData.images.isEmpty
-                              ? GlobalVariables.igError
-                              : productData.images[0],
-                        ),
+            body: SmartRefresher(
+              controller: refreshC,
+              enablePullDown: true,
+              enablePullUp: true,
+              onRefresh: refreshData,
+              onLoading: loadData,
+              header: const WaterDropHeader(
+                waterDropColor: Colors.pink,
+              ),
+              footer: CustomFooter(
+                builder: (context, mode) {
+                  if (mode == LoadStatus.idle) {
+                    return const SizedBox();
+                  } else if (mode == LoadStatus.loading) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 50,
+                        child: Loading2(),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              productData.name,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                    );
+                  } else if (mode == LoadStatus.failed) {
+                    return const Center(
+                        child: Text("Tải thất bại! Click để tải lại !"));
+                  } else if (mode == LoadStatus.canLoading) {
+                    return const Center(
+                        child: Text(
+                      "Tải Thêm",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.normal),
+                    ));
+                  } else {
+                    return const Center(child: Text("Không thể tải dữ liệu"));
+                  }
+                },
+              ),
+              child: GridView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: products!.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (context, index) {
+                  final productData = products![index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 2, right: 8, left: 8),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 130,
+                          child: SingleProduct(
+                            index: index,
+                            image: productData.images.isEmpty
+                                ? GlobalVariables.igError
+                                : productData.images[0],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                productData.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              deleteProduct(productData, index);
-                            },
-                            icon: const Icon(
-                              Icons.delete_outline,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+                            IconButton(
+                              onPressed: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Bạn Có Muốn Xóa Sản Phẩm'),
+                                  content: const Text(
+                                      'Hành động này sẽ xóa sản phẩm khỏi danh mục buôn bán và không thể phục hồi !! '),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Hủy'),
+                                      child: const Text('Hủy'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        deleteProduct(productData, index);
+                                        Navigator.pop(context, 'Xóa');
+                                      },
+                                      child: const Text('Xóa'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.delete_outline,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
@@ -104,7 +186,7 @@ class _PostScreenState extends State<PostScreen> {
               child: const Icon(Icons.add),
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+                FloatingActionButtonLocation.miniEndFloat,
           );
   }
 }
