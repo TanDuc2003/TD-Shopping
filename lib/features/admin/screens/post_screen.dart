@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:quickalert/models/quickalert_animtype.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/widget/single_product.dart';
@@ -118,10 +121,12 @@ class _PostScreenState extends State<PostScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 2, right: 8, left: 8),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(
                           height: 130,
                           child: SingleProduct(
+                            ishowStatus: true,
                             index: index,
                             image: productData.images.isEmpty
                                 ? GlobalVariables.igError
@@ -138,34 +143,30 @@ class _PostScreenState extends State<PostScreen> {
                                 maxLines: 2,
                                 style: const TextStyle(
                                   color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
                             IconButton(
-                              onPressed: () => showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Bạn Có Muốn Xóa Sản Phẩm'),
-                                  content: const Text(
-                                      'Hành động này sẽ xóa sản phẩm khỏi danh mục buôn bán và không thể phục hồi !! '),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Hủy'),
-                                      child: const Text('Hủy'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        deleteProduct(productData, index);
-                                        Navigator.pop(context, 'Xóa');
-                                      },
-                                      child: const Text('Xóa'),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              onPressed: () {
+                                QuickAlert.show(
+                                  context: context,
+                                  title: "Bạn Có Muốn Xóa Sản Phẩm",
+                                  type: QuickAlertType.error,
+                                  text:
+                                      'Sản phẩm khỏi danh mục buôn bán và không thể phục hồi !!',
+                                  showCancelBtn: true,
+                                  animType: QuickAlertAnimType.scale,
+                                  onCancelBtnTap: () {
+                                    deleteProduct(productData, index);
+                                    Navigator.pop(context, 'Xóa');
+                                  },
+                                  confirmBtnText: 'Không',
+                                  cancelBtnText: 'Có',
+                                  confirmBtnColor: Colors.green,
+                                );
+                              },
                               icon: const Icon(
                                 Icons.delete_outline,
                               ),

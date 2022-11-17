@@ -28,5 +28,3 @@ Future<List<File>> pickImage() async {
   }
   return images;
 }
-
-

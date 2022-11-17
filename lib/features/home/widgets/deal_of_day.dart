@@ -42,69 +42,92 @@ class _DealOfDayState extends State<DealOfDay> {
             ? const SizedBox()
             : GestureDetector(
                 onTap: navigaToDetailsScreen,
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.only(left: 10, top: 15),
-                      child: const Text(
-                        "Ưu dãi trong ngày",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
+                child: Container(
+                  color: Colors.white,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(left: 10, top: 15),
+                        child: const Text(
+                          "Top Deal",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
-                    ),
-                    Image.network(
-                      product!.images[0],
-                      fit: BoxFit.fitHeight,
-                      height: 235,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        "₫79.000",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      padding:
-                          const EdgeInsets.only(left: 15, top: 5, right: 40),
-                      child: const Text(
-                        "MacBook Pro 2020 13 inch (MYD92/MYDC2) Apple M1 8GB RAM 512GB SSD – Like New",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: product!.images
-                              .map(
-                                (e) => Image.network(
-                                  e,
-                                  fit: BoxFit.fitWidth,
-                                  width: 100,
-                                  height: 100,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.network(
+                            product!.images[0],
+                            fit: BoxFit.fitHeight,
+                            width: double.infinity,
+                            height: 200,
+                          ),
+                          Positioned(
+                            bottom: -20,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: product!.images
+                                    .map(
+                                      (e) => Image.network(
+                                        e,
+                                        fit: BoxFit.fitWidth,
+                                        width: 100,
+                                        height: 100,
+                                        color: const Color.fromRGBO(
+                                            255, 255, 255, 0.7),
+                                        colorBlendMode: BlendMode.modulate,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 17,
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.black45,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Row(
+                                    children: const [
+                                      Text("5"),
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              )
-                              .toList()),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 15)
-                          .copyWith(left: 15),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Xem tất cả dell",
-                        style: TextStyle(
-                          color: Colors.cyan[800],
-                        ),
+                                Image.asset(
+                                  "assets/category/sale.png",
+                                  fit: BoxFit.cover,
+                                  height: 50,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               );
   }

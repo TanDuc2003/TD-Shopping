@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
-import 'package:td_shoping/features/details_product/screens/products_details_screen.dart';
+import 'package:td_shoping/features/home/screens/all_product_screen.dart';
 import 'package:td_shoping/features/home/services/home_services.dart';
 import 'package:td_shoping/models/product.dart';
 
@@ -20,6 +21,7 @@ class CategoryDealScreen extends StatefulWidget {
 class _CategoryDealScreenState extends State<CategoryDealScreen> {
   List<Product>? productList;
   final HomeServices homeServices = HomeServices();
+  RefreshController refreshC = RefreshController();
 
   @override
   void initState() {
@@ -27,6 +29,27 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
     fetchCategoryProducts();
   }
 
+  void refreshData() async {
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      fetchCategoryProducts();
+      setState(() {});
+      refreshC.refreshCompleted();
+    } catch (e) {
+      refreshC.refreshFailed();
+    }
+  }
+
+  void loadData() async {
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      fetchCategoryProducts();
+      setState(() {});
+      refreshC.loadComplete();
+    } catch (e) {
+      refreshC.loadFailed();
+    }
+  }
   fetchCategoryProducts() async {
     productList = await homeServices.fetchCategoryProducts(
       context: context,
@@ -56,93 +79,44 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
       ),
       body: productList == null
           ? const Loading()
-          : Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  alignment: Alignment.topLeft,
-                  child: productList!.isEmpty
-                      ? const Center(
-                          child: Text(
-                            "Chưa có sản phẩm nào",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                            ),
-                          ),
-                        )
-                      : Text(
-                          'Tất cả Sản phẩm ${widget.category}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                ),
-                SizedBox(
-                  height: 130,
-                  child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(left: 15),
-                    itemCount: productList!.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      childAspectRatio: 1.4,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      final product = productList![index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ProductDetailsScreen.routeName,
-                            arguments: product,
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 130,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black12,
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Image.network(
-                                      product.images[0],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.only(
-                                left: 0,
-                                top: 5,
-                                right: 15,
-                              ),
-                              child: Text(
-                                product.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+          : SmartRefresher(
+              physics: const BouncingScrollPhysics(),
+              controller: refreshC,
+              enablePullDown: true,
+              enablePullUp: true,
+              onRefresh: refreshData,
+              onLoading: loadData,
+              header: const WaterDropHeader(
+                waterDropColor: Colors.pink,
+              ),
+              footer: CustomFooter(
+                builder: (context, mode) {
+                  if (mode == LoadStatus.idle) {
+                    return const SizedBox();
+                  } else if (mode == LoadStatus.loading) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 50,
+                        child: Loading2(),
+                      ),
+                    );
+                  } else if (mode == LoadStatus.failed) {
+                    return const Center(
+                        child: Text("Tải thất bại! Click để tải lại !"));
+                  } else if (mode == LoadStatus.canLoading) {
+                    return const Center(
+                        child: Text(
+                      "Tải Thêm",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.normal),
+                    ));
+                  } else {
+                    return const Center(child: Text("Không thể tải dữ liệu"));
+                  }
+                },
+              ),
+              child: AllProductsScreen(product: productList!),
             ),
     );
   }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/bottom_bar.dart';
 import 'package:td_shoping/features/address/screen/address_screen.dart';
 import 'package:td_shoping/features/admin/screens/addproduct_screen.dart';
-import 'package:td_shoping/features/auth/screens/auth_screen.dart';
+import 'package:td_shoping/features/auth/screens/signIn_screen.dart';
+import 'package:td_shoping/features/auth/screens/signUp_screen.dart';
 import 'package:td_shoping/features/details_orders/screens/orders_details.dart';
 import 'package:td_shoping/features/details_product/screens/products_details_screen.dart';
 import 'package:td_shoping/features/home/screens/category_deal_screen.dart';
@@ -13,10 +14,15 @@ import 'package:td_shoping/models/product.dart';
 
 Route<dynamic> generateraRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
-    case AuthScreen.routeName:
+    case LoginSceen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const AuthScreen(),
+        builder: (_) => const LoginSceen(),
+      );
+    case SignUpScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SignUpScreen(),
       );
     case HomeScreen.routeName:
       return MaterialPageRoute(

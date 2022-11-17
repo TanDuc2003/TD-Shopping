@@ -1,65 +1,86 @@
-import 'package:flutter/material.dart';
-import 'package:td_shoping/constants/global_variables.dart';
-import 'package:td_shoping/features/accounts/widget/bellow_appbar.dart';
-import 'package:td_shoping/features/accounts/widget/orders.dart';
-import 'package:td_shoping/features/accounts/widget/top_button.dart';
 
-class AccountScreen extends StatelessWidget {
+import 'package:badges/badges.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:td_shoping/constants/global_variables.dart';
+import 'package:td_shoping/features/accounts/screens/setting_screen.dart';
+import 'package:td_shoping/features/accounts/widget/orders.dart';
+import '../../cart/screen/cart_screen.dart';
+import '../widget/bellow_appbar.dart';
+
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  void navigaToCartScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      PageTransition(
+        child: const CartScreen(),
+        type: PageTransitionType.rightToLeft,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: AppBar(
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: GlobalVariables.appBarGradient,
-              ),
+      appBar: AppBar(
+          elevation: 0,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: GlobalVariables.appBarGradient,
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    "assets/images/amazon_in.png",
-                    width: 120,
-                    height: 45,
-                    color: Colors.black,
-                  ),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      child: const SettingScreen(),
+                      type: PageTransitionType.fade,
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.settings_outlined,
+                  size: 33,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.notifications_outlined,
-                          color: Colors.black,
-                          size: 25,
-                        ),
-                      ),
-                      Icon(
-                        Icons.search,
-                        color: Colors.black,
-                        size: 25,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              const SizedBox(width: 10),
+              IconButton(
+                onPressed: () => navigaToCartScreen(context),
+                icon: const Icon(
+                  Icons.shopping_cart_checkout,
+                  size: 33,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Badge(
+                animationType: BadgeAnimationType.scale,
+                badgeContent: const Text(
+                  "10",
+                  style: TextStyle(color: Colors.black, fontSize: 12),
+                ),
+                child: const Icon(
+                  Icons.notifications_active_outlined,
+                  size: 33,
+                ),
+              ),
+            ],
           )),
-      
       body: Column(
         children: const [
           BellowAppBar(),
-          SizedBox(height: 10),
-          TopButtons(),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
+          SizedBox(height: 30),
           Orders(),
         ],
       ),

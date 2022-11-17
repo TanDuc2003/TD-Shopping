@@ -148,7 +148,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           widget.order.orderedAt),
                     )}"),
                     Text("Mã Đơn    :   ${widget.order.id}"),
-                    Text("Giá Tiền   :    ${widget.order.totalPrice} VNĐ"),
+                    Text(
+                        "Giá Tiền   :    ${NumberFormat.simpleCurrency(locale: 'vi-VN', decimalDigits: 0).format(widget.order.totalPrice)}"),
+                    Text("Địa Chỉ     :    ${widget.order.address}"),
                   ],
                 ),
               ),
@@ -233,27 +235,25 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   },
                   steps: [
                     Step(
-                      title: const Text("Chờ Xác Nhận"),
-                      content:
-                          const Text("Đơn đặt hàng của bạn vẫn chưa được giao"),
+                      title: const Text("Chờ xác nhận"),
+                      content: const Text("Chờ xác nhận của chủ cửa hàng"),
                       isActive: currentStep > 0,
                       state: currentStep > 0
                           ? StepState.complete
                           : StepState.indexed,
                     ),
                     Step(
-                      title: const Text("Hoàn Thành"),
-                      content: const Text(
-                          "Đơn đặt hàng của bạn đã được giao, bạn vẫn chưa ký."),
+                      title: const Text("Chờ Lấy Hàng"),
+                      content: const Text("Chờ Shipper tới lấy đơn hàng"),
                       isActive: currentStep > 1,
                       state: currentStep > 1
                           ? StepState.complete
                           : StepState.indexed,
                     ),
                     Step(
-                      title: const Text("Nhận Hàng"),
+                      title: const Text("Đang Giao "),
                       content: const Text(
-                          "Đơn đặt hàng của bạn đã được giao và có chữ ký của bạn"),
+                          "Đơn đặt hàng của bạn đã được giao cho Shiper sẽ sớm được giao tới bạn"),
                       isActive: currentStep > 2,
                       state: currentStep > 2
                           ? StepState.complete
@@ -262,7 +262,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     Step(
                       title: const Text("Đã Giao Hàng"),
                       content: const Text(
-                          "Đơn hàng của bạn giao thành công.Cảm ơn bạn đã mua hàng ❤❤❤"),
+                          "Đơn hàng của bạn giao thành công. Cảm ơn bạn đã mua hàng ❤❤❤"),
                       isActive: currentStep >= 3,
                       state: currentStep > 3
                           ? StepState.complete

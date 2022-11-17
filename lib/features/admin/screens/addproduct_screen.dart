@@ -27,7 +27,6 @@ class _AddProducScreenState extends State<AddProducScreen> {
   final ScrollController controller = ScrollController();
   bool checkScroll = false;
 
-
   String category = "Điện Thoại";
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
@@ -43,10 +42,15 @@ class _AddProducScreenState extends State<AddProducScreen> {
 
   List<String> productCategories = [
     "Điện Thoại",
-    "Thiết Yếu",
-    "Gia Dụng",
-    "Thời Trang",
-    "Sách",
+    "Laptop",
+    "Tablet",
+    "Loa",
+    "Smartwatch",
+    "Tai Nghe",
+    "Chuột",
+    "Bàn Phím",
+    "Cáp Sạc",
+    "Ốp Lưng",
   ];
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
@@ -149,6 +153,41 @@ class _AddProducScreenState extends State<AddProducScreen> {
                           ),
                         ),
                       ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: DropdownButton(
+                    items: productCategories.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(height: 2)
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newVal) {
+                      setState(() {
+                        category = newVal!;
+                      });
+                    },
+                    value: category,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                  ),
+                ),
                 const SizedBox(height: 30),
                 CustomTextField(
                   controller: productNameController,
@@ -169,31 +208,6 @@ class _AddProducScreenState extends State<AddProducScreen> {
                 CustomTextField(
                   controller: quantityController,
                   hintText: "Số Lượng",
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  child: DropdownButton(
-                    items: productCategories.map((String item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? newVal) {
-                      setState(() {
-                        category = newVal!;
-                      });
-                    },
-                    value: category,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                  ),
                 ),
                 const SizedBox(height: 10),
                 CustomButton(

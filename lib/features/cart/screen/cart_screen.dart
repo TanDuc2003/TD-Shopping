@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:td_shoping/common/widgets/custom_button.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/address/screen/address_screen.dart';
 import 'package:td_shoping/features/cart/widget/cart_product.dart';
 import 'package:td_shoping/features/cart/widget/cart_subtotal.dart';
 import 'package:td_shoping/features/home/widgets/address_box.dart';
 import 'package:td_shoping/provider/user_provider.dart';
-
-import '../../search/screens/search_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -18,9 +19,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  void navigateToSearchScreen(String query) {
-    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
-  }
+  final Uri _url =
+      Uri.parse('https://www.facebook.com/profile.php?id=100007570936511');
 
   void navigateToAddressScreen(int sum) {
     Navigator.pushNamed(context, AddressScreen.routeName,
@@ -34,10 +34,35 @@ class _CartScreenState extends State<CartScreen> {
     user.cart
         .map((e) => sum += e['quantity'] * e['product']['price'] as int)
         .toList();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black.withOpacity(0.8),
+                size: 25,
+              ),
+            ),
+          ),
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,
@@ -46,62 +71,24 @@ class _CartScreenState extends State<CartScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Container(
-                  height: 42,
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7),
-                    elevation: 1,
-                    child: TextFormField(
-                      onFieldSubmitted: navigateToSearchScreen,
-                      decoration: InputDecoration(
-                          prefixIcon: InkWell(
-                            onTap: () {
-                              //search in voice
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 6),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.black,
-                                size: 23,
-                              ),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.only(top: 10),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7)),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7)),
-                            borderSide: BorderSide(
-                              color: Colors.black38,
-                              width: 1,
-                            ),
-                          ),
-                          hintText: "Nhập tên sản phẩm cần tìm ...",
-                          hintStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          )),
-                    ),
+              const Text(
+                "Giỏ hàng",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => _launchUrl(),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.black54,
+                  highlightColor: Colors.black,
+                  direction: ShimmerDirection.rtl,
+                  period: const Duration(milliseconds: 3000),
+                  child: Image.asset(
+                    "assets/category/logo.png",
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(
-                  Icons.mic,
-                  color: Colors.black,
-                  size: 35,
-                ),
-              )
             ],
           ),
         ),
@@ -110,17 +97,6 @@ class _CartScreenState extends State<CartScreen> {
         child: Column(
           children: [
             const AddressBox(),
-            const CartSubtotal(),
-            CustomButton(
-              onTap: () => navigateToAddressScreen(sum),
-              textSize: 18,
-              text: "Mua Ngay (${user.cart.length} món)",
-            ),
-            const SizedBox(height: 15),
-            Container(
-              color: Colors.black12.withOpacity(0.8),
-              height: 1,
-            ),
             SizedBox(
               height: 440,
               child: ListView.builder(
@@ -131,10 +107,56 @@ class _CartScreenState extends State<CartScreen> {
                   return CartProduct(index: index);
                 },
               ),
-            )
+            ),
+            const CartSubtotal(),
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        height: 60,
+        child: SizedBox(
+          child: ElevatedButton(
+            onPressed: () {
+              user.cart.isEmpty
+                  ? QuickAlert.show(
+                      context: context,
+                      type: QuickAlertType.warning,
+                      title: 'Oops...',
+                      text: 'Bạn chưa thêm bất kì sản phẩm nào vào giỏ hàng ',
+                      confirmBtnColor: Colors.red,
+                      titleColor: Colors.cyan,
+                    )
+                  : navigateToAddressScreen(sum);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black87,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: const Text(
+              "Thanh Toán",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
   }
 }

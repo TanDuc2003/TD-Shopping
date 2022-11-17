@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:td_shoping/constants/error_handling.dart';
 import 'package:td_shoping/constants/global_variables.dart';
-import 'package:td_shoping/features/auth/screens/auth_screen.dart';
+import 'package:td_shoping/features/auth/screens/signIn_screen.dart';
 import 'package:td_shoping/models/orders.dart';
 import '../../../constants/utils.dart';
 import '../../../provider/user_provider.dart';
@@ -54,7 +54,7 @@ class AccountServices {
       // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
         context,
-        AuthScreen.routeName,
+        LoginSceen.routeName,
         (_) => false,
       );
     } catch (e) {

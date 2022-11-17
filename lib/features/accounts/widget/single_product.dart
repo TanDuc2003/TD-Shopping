@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 class SingleProduct extends StatelessWidget {
   final String image;
   final int? index;
-  const SingleProduct({super.key, required this.image, this.index = 0});
+  final int? status;
+  final bool ishowStatus;
+  const SingleProduct({
+    super.key,
+    required this.image,
+    this.status,
+    this.index = 0,
+    this.ishowStatus = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,43 +23,74 @@ class SingleProduct extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
         ),
-        child: Stack(
-          children: [
-            Container(
-              width: 180,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: SizedBox(
-                height: 120,
-                child: Image.network(
-                  image,
-                  fit: BoxFit.cover,
-                  width: 160,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 10,
-              left: 10,
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(100)),
-                child: Text(
-                  index.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
+        child: ishowStatus
+            ? Container(
+                width: 180,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: SizedBox(
+                  height: 120,
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.contain,
+                    width: 160,
                   ),
                 ),
+              )
+            : Column(
+                children: [
+                  Container(
+                    width: 180,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: SizedBox(
+                      height: 120,
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.contain,
+                        width: 160,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  if (status == 0)
+                    const Text(
+                      "Chờ xác nhận",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                  if (status == 1)
+                    const Text(
+                      "Chờ lấy hàng",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                  if (status == 2)
+                    const Text(
+                      "Đang giao",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                  if (status == 3)
+                    const Text(
+                      "Giao thành công",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

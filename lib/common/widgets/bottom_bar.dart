@@ -1,11 +1,7 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/screens/account_screen.dart';
-import 'package:td_shoping/features/cart/screen/cart_screen.dart';
 import 'package:td_shoping/features/home/screens/home_screen.dart';
-import 'package:td_shoping/provider/user_provider.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -23,7 +19,6 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const CartScreen(),
   ];
 
   void updatePage(int page) {
@@ -34,7 +29,6 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userCartLen = context.watch<UserProvider>().user.cart.length;
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -90,44 +84,6 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: "",
           ),
-          // tài khoản
-          BottomNavigationBarItem(
-              icon: Container(
-                width: bottomBarWith,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: _page == 2
-                          ? GlobalVariables.selectedNavBarColor
-                          : GlobalVariables.backgroundColor,
-                      width: bottomBarBorderWith,
-                    ),
-                  ),
-                ),
-                child: userCartLen == 0
-                    ? Icon(
-                        Icons.shopping_cart_outlined,
-                        color: _page == 2
-                            ? GlobalVariables.selectedNavBarColor
-                            : GlobalVariables.unselectedNavBarColor,
-                      )
-                    : Badge(
-                        elevation: 0,
-                        animationType: BadgeAnimationType.slide,
-                        badgeContent: Text(
-                          userCartLen.toString(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        badgeColor: Colors.pink[400]!,
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: _page == 2
-                              ? GlobalVariables.selectedNavBarColor
-                              : GlobalVariables.unselectedNavBarColor,
-                        ),
-                      ),
-              ),
-              label: ""),
         ],
       ),
     );

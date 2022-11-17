@@ -76,7 +76,6 @@ class AuthServices {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           prefs.setString("x-auth-token", jsonDecode(res.body)['token']);
-          showSnackBar(context, "đăng nhập thành công");
           Navigator.pushNamedAndRemoveUntil(
               context, BottomBar.routeName, (route) => false);
         },

@@ -13,10 +13,12 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemExtent: 75,
+        itemExtent: 80,
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         itemCount: GlobalVariables.categoryImages.length,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -27,15 +29,16 @@ class Categories extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.asset(
-                      GlobalVariables.categoryImages[index]['image']!,
-                      fit: BoxFit.cover,
-                      height: 40,
-                      width: 40,
-                    ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey[300],
+                  ),
+                  child: Image.asset(
+                    GlobalVariables.categoryImages[index]['image']!,
+                    fit: BoxFit.cover,
+                    height: 50,
+                    width: 50,
                   ),
                 ),
                 Text(

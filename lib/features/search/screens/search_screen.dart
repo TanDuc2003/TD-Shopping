@@ -65,17 +65,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextFormField(
                       onFieldSubmitted: navigateToSearchScreen,
                       decoration: InputDecoration(
-                          prefixIcon: InkWell(
-                            onTap: () {
-                              //search
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 6),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.black,
-                                size: 23,
-                              ),
+                          prefixIcon: const Padding(
+                            padding: EdgeInsets.only(left: 6),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                              size: 23,
                             ),
                           ),
                           filled: true,
@@ -92,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               width: 1,
                             ),
                           ),
-                          hintText: "Nhập tên sản phẩm cần tìm ...",
+                          hintText: widget.searchQuery,
                           hintStyle: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
@@ -123,6 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 const SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemCount: products!.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(

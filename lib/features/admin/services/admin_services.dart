@@ -43,7 +43,6 @@ class AdminServices {
           category: category,
           price: price,
         );
-
         http.Response response = await http.post(
           Uri.parse('$uri/admin/add-product'),
           headers: <String, String>{
@@ -213,12 +212,15 @@ class AdminServices {
           totalEarning = response['totalEarnings'];
           sales = [
             Sales("Điện Thoại", response['dienthoaiEarnings']),
-            Sales("Thiết Yếu", response['thietyeuEarnings']),
-            Sales("Gia Dụng", response['giadungEarnings']),
-            Sales("Sách", response['sachEarnings']),
-            Sales("Thời Trang", response['thoitrangEarnings']),
-            Sales("Pet", response['petEarnings']),
-            Sales("Điện Tử", response['dientuEarnings']),
+            Sales("Laptop", response['laptopEarnings']),
+            Sales("Tablet", response['tabletEarnings']),
+            Sales("Loa", response['loaEarnings']),
+            Sales("Smartwatch", response['smartwatchEarnings']),
+            Sales("Tai Nghe", response['taingheEarnings']),
+            Sales("Chuột", response['chuotEarnings']),
+            Sales("Bàn Phím", response['banphimEarnings']),
+            Sales("Cáp Sạc", response['sacEarnings']),
+            Sales("Ốp Lưng", response['oplungEarnings']),
           ];
         },
       );
@@ -229,5 +231,36 @@ class AdminServices {
       'sales': sales,
       'totalEarnings': totalEarning,
     };
+  }
+
+  // xóa sản phẩm order thành công
+  void deleteProductOrder({
+    required BuildContext context,
+    required Order productOrder,
+    required VoidCallback onSuccess,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$uri/admin/delete-product-order'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({
+          'id': productOrder.id,
+        }),
+      );
+
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }

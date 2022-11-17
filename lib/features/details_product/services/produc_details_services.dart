@@ -18,6 +18,7 @@ class ProductDetailsServices {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
+      showSnackBar(context, "Đã thêm Sản Phẩm vào Giỏ hàng");
       http.Response res = await http.post(
         Uri.parse('$uri/api/add-to-cart'),
         headers: {
@@ -51,6 +52,7 @@ class ProductDetailsServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
+      showSnackBar(context, "Cảm ơn bạn đã đánh giá sản phẩm này");
       http.Response response = await http.post(
         Uri.parse('$uri/api/rate-product'),
         headers: <String, String>{

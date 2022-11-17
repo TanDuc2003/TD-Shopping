@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:td_shoping/provider/user_provider.dart';
 
@@ -23,7 +24,8 @@ class CartSubtotal extends StatelessWidget {
             ),
           ),
           Text(
-            "₫$sum VNĐ",
+            NumberFormat.simpleCurrency(locale: 'vi-VN', decimalDigits: 0)
+                .format(sum),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

@@ -1,7 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:td_shoping/common/widgets/loadding.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/features/accounts/services/account_services.dart';
+import 'package:td_shoping/features/accounts/widget/all_product_order.dart';
 import 'package:td_shoping/features/accounts/widget/single_product.dart';
 import 'package:td_shoping/features/details_orders/screens/orders_details.dart';
 import 'package:td_shoping/models/orders.dart';
@@ -34,6 +36,17 @@ class _OrdersState extends State<Orders> {
         ? const Loading()
         : Column(
             children: [
+              SizedBox(
+                child: Text(
+                  "Bạn đã đặt ${orders!.length} đơn hàng",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -47,14 +60,25 @@ class _OrdersState extends State<Orders> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: Text(
-                      "Tất cả",
-                      style: TextStyle(
-                        color: GlobalVariables.selectedNavBarColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const AllProductsOrderScreen(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Text(
+                        "Tất cả",
+                        style: TextStyle(
+                          color: GlobalVariables.selectedNavBarColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -65,6 +89,7 @@ class _OrdersState extends State<Orders> {
                 height: 170,
                 padding: const EdgeInsets.only(left: 10, top: 20, right: 0),
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: orders!.length,
                   itemBuilder: ((context, index) {

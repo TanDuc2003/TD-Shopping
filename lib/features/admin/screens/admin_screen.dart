@@ -14,7 +14,6 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   int _page = 0;
-  int nb = 1;
   double bottomBarWith = 42;
   double bottomBarBorderWith = 5;
   final AccountServices accountServices = AccountServices();
@@ -28,7 +27,6 @@ class _AdminScreenState extends State<AdminScreen> {
   void updatePage(int page) {
     setState(() {
       _page = page;
-      nb++;
     });
   }
 
@@ -57,7 +55,10 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
               ),
               IconButton(
-                  onPressed: () => accountServices.logOut(context),
+                  onPressed: () {
+                    // accountServices.logOut(context);
+                    _showMyDialog();
+                  },
                   icon: const Icon(Icons.logout))
             ],
           ),
@@ -141,6 +142,75 @@ class _AdminScreenState extends State<AdminScreen> {
               label: ""),
         ],
       ),
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const SingleChildScrollView(
+            child: Text(
+              'Bạn chắc chắn muốn đăng xuất ?',
+              style: TextStyle(
+                color: Colors.black45,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38, width: 0.5),
+                    ),
+                    child: TextButton(
+                      child: const Text(
+                        'Không',
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38, width: 0.5),
+                    ),
+                    child: TextButton(
+                      child: const Text(
+                        'Đồng ý',
+                        style: TextStyle(
+                          color: Colors.orange,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onPressed: () {
+                        accountServices.logOut(context);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }
