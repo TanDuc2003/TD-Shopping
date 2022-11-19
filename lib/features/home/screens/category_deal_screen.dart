@@ -50,6 +50,7 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
       refreshC.loadFailed();
     }
   }
+
   fetchCategoryProducts() async {
     productList = await homeServices.fetchCategoryProducts(
       context: context,
@@ -116,7 +117,10 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                   }
                 },
               ),
-              child: AllProductsScreen(product: productList!),
+              child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  color: Colors.grey[200],
+                  child: AllProductsScreen(product: productList!)),
             ),
     );
   }

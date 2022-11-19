@@ -13,7 +13,9 @@ import 'package:td_shoping/features/details_product/services/produc_details_serv
 import 'package:td_shoping/features/home/widgets/image_full_screen.dart';
 import 'package:td_shoping/models/product.dart';
 import 'package:td_shoping/provider/user_provider.dart';
+
 import '../../../constants/global_variables.dart';
+import '../../../constants/utils.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const String routeName = "/product-details";
@@ -296,41 +298,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                   cancelBtnText: 'Hủy',
                                   customAsset: 'assets/category/rating.gif',
-                                  widget: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: Column(
-                                      children: [
-                                        const Text(
-                                          "Đánh giá sản phẩm",
-                                          style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                  widget: Column(
+                                    children: [
+                                      const Text(
+                                        "Đánh giá sản phẩm",
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        RatingBar.builder(
-                                          initialRating: myRating,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 4),
-                                          itemBuilder: (context, _) =>
-                                              const Icon(
-                                            Icons.star,
-                                            color:
-                                                GlobalVariables.secondaryColor,
-                                          ),
-                                          onRatingUpdate: (value) {
-                                            setState(() {
-                                              rating = value;
-                                            });
-                                          },
+                                      ),
+                                      RatingBar.builder(
+                                        initialRating: myRating,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemPadding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: GlobalVariables.secondaryColor,
                                         ),
-                                      ],
-                                    ),
+                                        onRatingUpdate: (value) {
+                                          setState(() {
+                                            rating = value;
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   onConfirmBtnTap: () {
                                     productDetailsServices.rateProduct(
@@ -384,7 +379,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: GestureDetector(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        splashColor: Colors.pinkAccent,
                         onTap: widget.product.quantity != 0
                             ? () {
                                 addToCart();
@@ -405,7 +402,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           padding: const EdgeInsets.all(5),
                           height: 100,
                           decoration: BoxDecoration(
-                            color: Colors.grey[800],
+                            border: Border.all(color: Colors.black45, width: 2),
+                            color: Colors.grey.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Image.asset(
@@ -433,19 +431,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         onPressed: widget.product.quantity != 0
                             ? () {
                                 addToCart();
+                                showSnackBar(
+                                    context, "Đã thêm Sản Phẩm vào Giỏ hàng");
                               }
                             : null,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.add_shopping_cart_outlined),
+                            const Icon(
+                              Icons.add_shopping_cart_outlined,
+                              size: 20,
+                            ),
                             const SizedBox(width: 10),
                             Text(
                               widget.product.quantity != 0
                                   ? "Thêm Vào Giỏ Hàng"
                                   : "Hết Hàng",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize:
+                                    widget.product.quantity != 0 ? 17 : 18,
                                 color: widget.product.quantity != 0
                                     ? Colors.white
                                     : Colors.black87,

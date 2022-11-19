@@ -64,8 +64,9 @@ class _AddressScreenState extends State<AddressScreen> {
           address: addressTobeUser,
           totalSum: double.parse(widget.totalAmout),
         );
+        showSnackBar(context, 'Đơn hàng của bạn đã được đặt thành công ❤ ');
       } else {
-        throw Exception("vui lòng nhập đúng");
+        throw Exception("Vui lòng nhập đúng");
       }
     } else if (addressFromProvider.isNotEmpty) {
       addressTobeUser = addressFromProvider;
@@ -81,6 +82,7 @@ class _AddressScreenState extends State<AddressScreen> {
         address: addressTobeUser,
         totalSum: double.parse(widget.totalAmout),
       );
+      showSnackBar(context, 'Đơn hàng của bạn đã được đặt thành công ❤ ');
     } else {
       showSnackBar(context, "Lỗi ");
     }
@@ -222,7 +224,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     const SizedBox(height: 10),
                     CustomTextField(
                       controller: cityController,
-                      hintText: '   Tình/Thành Phố',
+                      hintText: '   Tỉnh/Thành Phố',
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(

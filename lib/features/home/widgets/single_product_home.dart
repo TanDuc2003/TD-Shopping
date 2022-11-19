@@ -9,7 +9,6 @@ class SingleProductHome extends StatefulWidget {
   final String image;
   final String name;
   final double price;
-  final double rating;
   final int? index;
   final Product product;
 
@@ -19,7 +18,6 @@ class SingleProductHome extends StatefulWidget {
     this.index = 0,
     required this.name,
     required this.price,
-    required this.rating,
     required this.product,
   });
 
@@ -65,9 +63,15 @@ class _SingleProductHomeState extends State<SingleProductHome> {
             flex: 3,
             child: Stack(
               children: [
-                Image.network(
-                  widget.image,
-                  fit: BoxFit.contain,
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                  ),
+                  child: Image.network(
+                    widget.image,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Positioned(
                   bottom: 10,

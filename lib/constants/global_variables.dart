@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-// String uri = "https://td-shoping-server.herokuapp.com";
+String uri = "https://td-shoping-server.herokuapp.com";
 
-String ipconfig = "192.168.0.113";
+// String ipconfig = "192.168.0.113";
+
 // String ipconfig = "192.168.1.8";
-String uri = "http://$ipconfig:3000";
+// String uri = "http://$ipconfig:3000";
 
 class GlobalVariables {
   // Màu sắc
@@ -38,18 +39,6 @@ class GlobalVariables {
     'https://lh3.googleusercontent.com/AEu4PAdlRD2sktmPk2Akw4OYlzdKgOkpUcmJJt7CSoiuIG3dIdCVFdwKDFoZiN8T5BVp58nMToC4akO4hzKd10NQ0UZR2zXh=rw-w1920',
     'https://lh3.googleusercontent.com/a3s0ARkoipVKnKMr1YN7xRIvS-s3HM4EYXfzlKhpZNMBGhNvYmNTU8xzLlCLjqBN_2pNTo2EUdzQ5iYv2VeyZNeOVhN29QJs=w1920-rw',
   ];
-
-//   //middleware
-// app.use(function (req, res, next) {
-//   res.setHeader("x-auth-token", "*");
-//   res.setHeader("Access-Control-Allow-Credentials", true);
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-//   res.setHeader("Access-Control-Allow-Headers", "*");
-
-//   next();
-// });
 
   static const List<Map<String, String>> categoryImages = [
     {

@@ -18,7 +18,6 @@ class ProductDetailsServices {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
-      showSnackBar(context, "Đã thêm Sản Phẩm vào Giỏ hàng");
       http.Response res = await http.post(
         Uri.parse('$uri/api/add-to-cart'),
         headers: {

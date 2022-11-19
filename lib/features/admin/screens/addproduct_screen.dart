@@ -26,7 +26,7 @@ class _AddProducScreenState extends State<AddProducScreen> {
   final AdminServices adminServices = AdminServices();
   final ScrollController controller = ScrollController();
   bool checkScroll = false;
-
+  String pricenew = '';
   String category = "Điện Thoại";
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
@@ -64,6 +64,11 @@ class _AddProducScreenState extends State<AddProducScreen> {
         images: images,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   void selectImage() async {

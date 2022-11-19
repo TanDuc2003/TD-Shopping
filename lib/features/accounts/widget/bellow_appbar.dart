@@ -28,7 +28,7 @@ class BellowAppBar extends StatelessWidget {
                   height: 100,
                   color: Colors.orange,
                   child: Text(
-                    user.name[0],
+                    user.name[0].toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 55,

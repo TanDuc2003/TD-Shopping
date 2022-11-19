@@ -92,7 +92,7 @@ class _OrdersState extends State<Orders> {
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: orders!.length,
-                  itemBuilder: ((context, index) {
+                  itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
@@ -105,7 +105,7 @@ class _OrdersState extends State<Orders> {
                         image: orders![index].products[0].images[0],
                       ),
                     );
-                  }),
+                  },
                 ),
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:quickalert/models/quickalert_animtype.dart';
@@ -25,9 +27,12 @@ class _OrderScreensState extends State<OrderScreens> {
   void initState() {
     super.initState();
     fetchAllOrderProduc();
-  }
 
-  //refdata
+    Timer(
+      const Duration(seconds: 20),
+      () => fetchAllOrderProduc(),
+    );
+  }
 
   void refreshData() async {
     try {
@@ -53,6 +58,10 @@ class _OrderScreensState extends State<OrderScreens> {
 
   void fetchAllOrderProduc() async {
     orders = await adminServices.fetchAllOrderProduct(context);
+    Timer(
+      const Duration(seconds: 20),
+      () => fetchAllOrderProduc(),
+    );
     setState(() {});
   }
 
@@ -122,7 +131,9 @@ class _OrderScreensState extends State<OrderScreens> {
                         shrinkWrap: true,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 10, crossAxisCount: 2),
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                        ),
                         itemCount: orders!.length,
                         itemBuilder: (context, index) {
                           final orderData = orders![index];
@@ -134,52 +145,55 @@ class _OrderScreensState extends State<OrderScreens> {
                                 arguments: orderData,
                               );
                             },
-                            child: Column(
+                            child: Stack(
                               children: [
-                                SingleProduct(
-                                  index: index,
-                                  image: orderData.products[0].images[0],
-                                ),
-                                if (orderData.status == 0)
-                                  const Text("Đang Đóng Gói",
-                                      style: TextStyle(color: Colors.green))
-                                else if (orderData.status == 1)
-                                  const Text("Shiper Đã Lấy",
-                                      style: TextStyle(color: Colors.green))
-                                else if (orderData.status == 2)
-                                  const Text("Đang Vận Chuyển",
-                                      style: TextStyle(color: Colors.green))
-                                else if (orderData.status == 3)
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                Column(
+                                  children: [
+                                    SingleProduct(
+                                      index: index,
+                                      image: orderData.products[0].images[0],
+                                    ),
+                                    if (orderData.status == 0)
+                                      const Text("Đang Đóng Gói",
+                                          style: TextStyle(color: Colors.green))
+                                    else if (orderData.status == 1)
+                                      const Text("Shiper Đã Lấy",
+                                          style: TextStyle(color: Colors.green))
+                                    else if (orderData.status == 2)
+                                      const Text("Đang Vận Chuyển",
+                                          style: TextStyle(color: Colors.green))
+                                    else if (orderData.status == 3)
                                       const Text(
                                         "Giao Thành Công",
                                         style: TextStyle(color: Colors.red),
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          QuickAlert.show(
-                                            context: context,
-                                            title: "Bạn Có Muốn Xóa Sản Phẩm",
-                                            type: QuickAlertType.error,
-                                            text:
-                                                'Sản phẩm khỏi danh mục buôn bán và không thể phục hồi !!',
-                                            showCancelBtn: true,
-                                            animType: QuickAlertAnimType.scale,
-                                            onCancelBtnTap: () {
-                                              deleteProductOrder(
-                                                  orderData, index);
-                                              Navigator.pop(context, 'Xóa');
-                                            },
-                                            confirmBtnText: 'Không',
-                                            cancelBtnText: 'Có',
-                                            confirmBtnColor: Colors.green,
-                                          );
+                                  ],
+                                ),
+                                if (orderData.status == 3)
+                                  IconButton(
+                                    onPressed: () {
+                                      QuickAlert.show(
+                                        context: context,
+                                        title: "Bạn Có Muốn Xóa Sản Phẩm",
+                                        type: QuickAlertType.error,
+                                        text:
+                                            'Sản phẩm khỏi danh mục buôn bán và không thể phục hồi !!',
+                                        showCancelBtn: true,
+                                        animType: QuickAlertAnimType.scale,
+                                        onCancelBtnTap: () {
+                                          deleteProductOrder(orderData, index);
+                                          Navigator.pop(context, 'Xóa');
                                         },
-                                        icon: const Icon(Icons.delete),
-                                      )
-                                    ],
+                                        confirmBtnText: 'Không',
+                                        cancelBtnText: 'Có',
+                                        confirmBtnColor: Colors.green,
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      size: 30,
+                                      color: Colors.red,
+                                    ),
                                   )
                               ],
                             ),

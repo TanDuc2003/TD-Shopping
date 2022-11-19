@@ -90,8 +90,7 @@ class _CartProductState extends State<CartProduct> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                SizedBox(
                   child: Row(
                     children: [
                       Image.network(
@@ -99,15 +98,15 @@ class _CartProductState extends State<CartProduct> {
                             ? GlobalVariables.igError
                             : product.images[0],
                         fit: BoxFit.contain,
-                        width: 135,
-                        height: 135,
+                        width: 125,
+                        height: 125,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 235,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            width: 200,
+                            padding: const EdgeInsets.only(left: 10),
                             child: Text(
                               product.name,
                               style: const TextStyle(
@@ -119,7 +118,6 @@ class _CartProductState extends State<CartProduct> {
                             ),
                           ),
                           Container(
-                            width: 235,
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10, bottom: 10),
                             child: Text(
@@ -145,12 +143,13 @@ class _CartProductState extends State<CartProduct> {
                                       width: 1,
                                       color: Colors.black54,
                                     ),
-                                    borderRadius: BorderRadius.circular(5),
                                     color: Colors.black12,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: Row(
                                     children: [
                                       InkWell(
+                                        splashColor: Colors.pinkAccent,
                                         onTap: () => decreaseQuantity(product),
                                         child: Container(
                                           width: 35,
@@ -188,6 +187,7 @@ class _CartProductState extends State<CartProduct> {
                                         ),
                                       ),
                                       InkWell(
+                                        splashColor: Colors.pinkAccent,
                                         onTap: () => increaseQuantity(product),
                                         child: Container(
                                           width: 35,

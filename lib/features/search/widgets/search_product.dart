@@ -49,8 +49,8 @@ class SearchProduct extends StatelessWidget {
                         ? GlobalVariables.igError
                         : product.images[0],
                     fit: BoxFit.contain,
-                    width: 120,
-                    height: 120,
+                    width: 135,
+                    height: 135,
                   ),
                 ),
                 Expanded(

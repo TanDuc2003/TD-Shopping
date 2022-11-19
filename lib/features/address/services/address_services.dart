@@ -11,6 +11,7 @@ import 'package:td_shoping/models/users.dart';
 import 'package:td_shoping/provider/user_provider.dart';
 
 class AddressServices {
+  // lưu địa chỉ đặt hàng
   void saveUserAddress({
     required BuildContext context,
     required String address,
@@ -68,7 +69,6 @@ class AddressServices {
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(context, 'Đơn hàng của bạn đã được đặt thành công ❤ ');
           User user = userProvider.user.copyWith(
             cart: [],
           );

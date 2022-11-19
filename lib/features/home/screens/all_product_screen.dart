@@ -32,7 +32,6 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisExtent: 270,
               mainAxisSpacing: 10,
-              // crossAxisSpacing: 10,
               crossAxisCount: 2,
             ),
             itemBuilder: (context, index) {
@@ -51,7 +50,6 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                     image: productData.images[0],
                     name: productData.name,
                     price: productData.price,
-                    rating: 2.4,
                     product: productData,
                   ),
                 ),
