@@ -161,10 +161,11 @@ class _SearchScreenState extends State<SearchScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
+                        const SizedBox(height: 20),
                         const Text(
                           "Khi nói xong giữ tiếp 2 giây rồi ấn thả",
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.green),
+                          style: TextStyle(color: Colors.amber),
                         ),
                         Container(
                           color: Colors.transparent,

@@ -56,7 +56,6 @@ class _AdminScreenState extends State<AdminScreen> {
               ),
               IconButton(
                   onPressed: () {
-                    // accountServices.logOut(context);
                     _showMyDialog();
                   },
                   icon: const Icon(Icons.logout))

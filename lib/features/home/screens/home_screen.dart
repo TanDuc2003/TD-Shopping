@@ -154,37 +154,53 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (BuildContext context) => AlertDialog(
                               backgroundColor: Colors.transparent,
                               elevation: 0,
-                              title: const Text(
-                                'Ấn đẻ nói',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              content: Container(
-                                color: Colors.transparent,
-                                child: GestureDetector(
-                                  onLongPress: () {
-                                    _startListening();
-                                  },
-                                  onLongPressUp: () {
-                                    _stopListening();
-                                  },
-                                  child: AvatarGlow(
-                                    glowColor: Colors.red,
-                                    endRadius: 60.0,
-                                    child: Material(
-                                      elevation: 8.0,
-                                      shape: const CircleBorder(),
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 30.0,
-                                        child: Image.asset(
-                                          'assets/category/mic.png',
-                                          height: 50,
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Ấn để nói',
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text(
+                                    "Khi nói xong giữ tiếp 2 giây rồi ấn thả",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.amber),
+                                  ),
+                                  Container(
+                                    color: Colors.transparent,
+                                    child: GestureDetector(
+                                      onLongPress: () {
+                                        _startListening();
+                                      },
+                                      onLongPressUp: () {
+                                        _stopListening();
+                                      },
+                                      child: AvatarGlow(
+                                        glowColor: Colors.red,
+                                        endRadius: 60.0,
+                                        child: Material(
+                                          elevation: 8.0,
+                                          shape: const CircleBorder(),
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.grey[100],
+                                            radius: 30.0,
+                                            child: Image.asset(
+                                              'assets/category/mic.png',
+                                              height: 50,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ),
