@@ -23,8 +23,11 @@ class _CartScreenState extends State<CartScreen> {
       Uri.parse('https://www.facebook.com/profile.php?id=100007570936511');
 
   void navigateToAddressScreen(int sum) {
-    Navigator.pushNamed(context, AddressScreen.routeName,
-        arguments: sum.toString());
+    Navigator.pushNamed(
+      context,
+      AddressScreen.routeName,
+      arguments: sum.toString(),
+    );
   }
 
   @override

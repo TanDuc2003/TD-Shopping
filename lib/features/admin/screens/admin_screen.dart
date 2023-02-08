@@ -45,20 +45,40 @@ class _AdminScreenState extends State<AdminScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.only(left: 15, right: 15),
+                padding: const EdgeInsets.all(20),
                 child: const Text(
-                  "Admin",
+                  "ADMIN",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                    fontSize: 25,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
               ),
-              IconButton(
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.black87,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(21),
+                    ),
+                  ),
                   onPressed: () {
                     _showMyDialog();
                   },
-                  icon: const Icon(Icons.logout))
+                  child: Row(
+                    children: const [
+                      Text(
+                        "Đăng Xuất",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),

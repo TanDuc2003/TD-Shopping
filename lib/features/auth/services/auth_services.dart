@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,6 +104,7 @@ class AuthServices {
           'x-auth-token': token!
         },
       );
+      log(token);
 
       var response = jsonDecode(tokenRes.body);
       if (response == true) {

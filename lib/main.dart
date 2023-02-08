@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:td_shoping/common/widgets/splash_screen.dart';
 import 'package:td_shoping/constants/global_variables.dart';
+import 'package:td_shoping/constants/resets_app.dart';
 import 'package:td_shoping/features/auth/services/auth_services.dart';
 import 'package:td_shoping/provider/user_provider.dart';
 import 'package:td_shoping/router.dart';
@@ -12,7 +13,7 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => UserProvider(),
       ),
-    ], child: const MyApp()),
+    ], child: RestartWidget(child: const MyApp())),
   );
 }
 

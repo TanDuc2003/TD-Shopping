@@ -38,6 +38,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
               final productData = widget.product[index];
               return GestureDetector(
                 onTap: () {
+                  FocusScope.of(context).unfocus();
                   Navigator.pushNamed(
                     context,
                     ProductDetailsScreen.routeName,

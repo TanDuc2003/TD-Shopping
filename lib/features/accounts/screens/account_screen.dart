@@ -1,5 +1,4 @@
-
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:td_shoping/constants/global_variables.dart';
@@ -63,8 +62,8 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               ),
               const SizedBox(width: 10),
-              Badge(
-                animationType: BadgeAnimationType.scale,
+              badges.Badge(
+                animationType: badges.BadgeAnimationType.scale,
                 badgeContent: const Text(
                   "10",
                   style: TextStyle(color: Colors.black, fontSize: 12),

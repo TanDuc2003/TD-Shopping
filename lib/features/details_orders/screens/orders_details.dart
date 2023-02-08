@@ -70,28 +70,23 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     elevation: 1,
                     child: TextFormField(
                       onFieldSubmitted: navigateToSearchScreen,
-                      decoration: InputDecoration(
-                          prefixIcon: InkWell(
-                            onTap: () {
-                              //search in voice
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 6),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.black,
-                                size: 23,
-                              ),
+                      decoration: const InputDecoration(
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 6),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                              size: 23,
                             ),
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.only(top: 10),
-                          border: const OutlineInputBorder(
+                          contentPadding: EdgeInsets.only(top: 10),
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7)),
                             borderSide: BorderSide.none,
                           ),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7)),
                             borderSide: BorderSide(
                               color: Colors.black38,
@@ -99,7 +94,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ),
                           ),
                           hintText: "Nhập tên sản phẩm cần tìm ...",
-                          hintStyle: const TextStyle(
+                          hintStyle: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                           )),
@@ -107,14 +102,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(
-                  Icons.mic,
-                  color: Colors.black,
-                  size: 35,
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {
+                  print("Hóa Đơn");
+                },
+                splashColor: Colors.purpleAccent,
+                child: Container(
+                  color: Colors.transparent,
+                  height: 42,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: const Icon(
+                    Icons.receipt_long_outlined,
+                    color: Colors.black,
+                    size: 35,
+                  ),
                 ),
               )
             ],

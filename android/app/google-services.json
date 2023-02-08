@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818903623455",
+    "project_id": "tdshoping-8e4d9",
+    "storage_bucket": "tdshoping-8e4d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818903623455:android:0f9526e370a93de035322a",
+        "android_client_info": {
+          "package_name": "com.example.td_shoping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818903623455-if958ekng91i12pcjh1h3okk060qi5v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9ZCCXEDJZf6kAOkqa6Gzj7dEr7CuHcig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818903623455-if958ekng91i12pcjh1h3okk060qi5v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

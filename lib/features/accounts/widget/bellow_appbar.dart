@@ -4,6 +4,8 @@ import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/provider/user_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../constants/resets_app.dart';
+
 class BellowAppBar extends StatelessWidget {
   const BellowAppBar({super.key});
 
@@ -64,6 +66,12 @@ class BellowAppBar extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //check user vs admin 
+                  IconButton(
+                      onPressed: () {
+                        RestartWidget.restartApp(context);
+                      },
+                      icon: const Icon(Icons.restart_alt))
                 ],
               )
             ],

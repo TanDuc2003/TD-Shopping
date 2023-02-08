@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:td_shoping/constants/global_variables.dart';
 import 'package:td_shoping/constants/utils.dart';
 import 'package:td_shoping/features/address/services/address_services.dart';
+import 'package:td_shoping/notifications/notifications_services.dart';
 
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../provider/user_provider.dart';
@@ -10,7 +11,10 @@ import '../../../provider/user_provider.dart';
 class AddressScreen extends StatefulWidget {
   static const routeName = "/address";
   final String totalAmout;
-  const AddressScreen({super.key, required this.totalAmout});
+  const AddressScreen({
+    super.key,
+    required this.totalAmout,
+  });
 
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -24,11 +28,13 @@ class _AddressScreenState extends State<AddressScreen> {
   final _addressFormKey = GlobalKey<FormState>();
 
   final AddressServices addressServices = AddressServices();
+  final NotificationsServices notificationsServices = NotificationsServices();
 
   String addressTobeUser = "";
 
   @override
   void initState() {
+    notificationsServices.initiaseNotifications();
     super.initState();
   }
 
@@ -96,56 +102,56 @@ class _AddressScreenState extends State<AddressScreen> {
     );
   }
 
-  void onApplePayResult(res) {
-    if (Provider.of<UserProvider>(context, listen: false)
-        .user
-        .address
-        .isEmpty) {
-      addressServices.saveUserAddress(
-          context: context, address: addressTobeUser);
-    }
-    addressServices.placeOrder(
-      context: context,
-      address: addressTobeUser,
-      totalSum: double.parse(widget.totalAmout),
-    );
-  }
+  // void onApplePayResult(res) {
+  //   if (Provider.of<UserProvider>(context, listen: false)
+  //       .user
+  //       .address
+  //       .isEmpty) {
+  //     addressServices.saveUserAddress(
+  //         context: context, address: addressTobeUser);
+  //   }
+  //   addressServices.placeOrder(
+  //     context: context,
+  //     address: addressTobeUser,
+  //     totalSum: double.parse(widget.totalAmout),
+  //   );
+  // }
 
-  void onGooglePayResult(res) {
-    if (Provider.of<UserProvider>(context, listen: false)
-        .user
-        .address
-        .isEmpty) {
-      addressServices.saveUserAddress(
-          context: context, address: addressTobeUser);
-    }
-    addressServices.placeOrder(
-      context: context,
-      address: addressTobeUser,
-      totalSum: double.parse(widget.totalAmout),
-    );
-  }
+  // void onGooglePayResult(res) {
+  //   if (Provider.of<UserProvider>(context, listen: false)
+  //       .user
+  //       .address
+  //       .isEmpty) {
+  //     addressServices.saveUserAddress(
+  //         context: context, address: addressTobeUser);
+  //   }
+  //   addressServices.placeOrder(
+  //     context: context,
+  //     address: addressTobeUser,
+  //     totalSum: double.parse(widget.totalAmout),
+  //   );
+  // }
 
-  void payPressed(String addressFromProvider) {
-    addressTobeUser = "";
-    bool isForm = flatBuildingController.text.isNotEmpty ||
-        phoneController.text.isNotEmpty ||
-        cityController.text.isNotEmpty ||
-        areaController.text.isNotEmpty;
+  // void payPressed(String addressFromProvider) {
+  //   addressTobeUser = "";
+  //   bool isForm = flatBuildingController.text.isNotEmpty ||
+  //       phoneController.text.isNotEmpty ||
+  //       cityController.text.isNotEmpty ||
+  //       areaController.text.isNotEmpty;
 
-    if (isForm) {
-      if (_addressFormKey.currentState!.validate()) {
-        addressTobeUser =
-            '${flatBuildingController.text},  ${areaController.text},  ${cityController.text}-  ${phoneController.text}';
-      } else {
-        throw Exception("vui lòng nhập đúng");
-      }
-    } else if (addressFromProvider.isNotEmpty) {
-      addressTobeUser = addressFromProvider;
-    } else {
-      showSnackBar(context, "Lỗi ");
-    }
-  }
+  //   if (isForm) {
+  //     if (_addressFormKey.currentState!.validate()) {
+  //       addressTobeUser =
+  //           '${flatBuildingController.text},  ${areaController.text},  ${cityController.text}-  ${phoneController.text}';
+  //     } else {
+  //       throw Exception("vui lòng nhập đúng");
+  //     }
+  //   } else if (addressFromProvider.isNotEmpty) {
+  //     addressTobeUser = addressFromProvider;
+  //   } else {
+  //     showSnackBar(context, "Lỗi ");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +264,12 @@ class _AddressScreenState extends State<AddressScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () => onPayAtHome(address),
+                  onPressed: () {
+                    onPayAtHome(address);
+                    notificationsServices.sendNotifications(
+                        "Đặt Hàng Thành Công",
+                        "Cảm ơn bạn đã đặt hàng, Đơn hàng sẽ giao tới bạn sớm nhất có thể.");
+                  },
                   child: const Text(
                     "Thanh Toán Khi Nhận Hàng",
                     style: TextStyle(

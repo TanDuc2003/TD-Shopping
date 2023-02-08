@@ -184,10 +184,12 @@ class _PostScreenState extends State<PostScreen> {
                 navigateAddProduct();
               },
               tooltip: 'Thêm sản phẩm',
-              child: const Icon(Icons.add),
+              backgroundColor: Colors.black87,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.add, size: 30),
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniEndFloat,
+                FloatingActionButtonLocation.centerDocked,
           );
   }
 }
