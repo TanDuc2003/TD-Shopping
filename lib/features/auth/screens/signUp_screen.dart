@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:td_shoping/common/widgets/custom_textfield_v2.dart';
 import 'package:td_shoping/features/auth/services/auth_services.dart';

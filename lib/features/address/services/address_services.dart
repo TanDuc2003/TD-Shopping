@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -54,16 +56,20 @@ class AddressServices {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
-      http.Response res = await http.post(Uri.parse('$uri/api/order'),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
-          },
-          body: jsonEncode({
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/order'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode(
+          {
             'cart': userProvider.user.cart,
             'address': address,
             'totalPrice': totalSum,
-          }));
+          },
+        ),
+      );
 
       httpErrorHandle(
         response: res,

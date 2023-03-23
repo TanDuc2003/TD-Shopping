@@ -59,7 +59,7 @@ class _OrderScreensState extends State<OrderScreens> {
   void fetchAllOrderProduc() async {
     orders = await adminServices.fetchAllOrderProduct(context);
     Timer(
-      const Duration(seconds: 20),
+      const Duration(seconds: 5),
       () => fetchAllOrderProduc(),
     );
     setState(() {});

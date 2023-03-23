@@ -25,6 +25,7 @@ class AccountServices {
         'x-auth-token': userProvider.user.token,
       });
 
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,

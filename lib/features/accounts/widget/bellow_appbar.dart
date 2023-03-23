@@ -66,12 +66,21 @@ class BellowAppBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  //check user vs admin 
+                  //check user vs admin
+
                   IconButton(
-                      onPressed: () {
-                        RestartWidget.restartApp(context);
-                      },
-                      icon: const Icon(Icons.restart_alt))
+                    onPressed: user.type == 'user'
+                        ? null
+                        : () {
+                            RestartWidget.restartApp(context);
+                          },
+                    icon: Icon(
+                      Icons.restart_alt,
+                      color: user.type == 'user'
+                          ? Colors.transparent
+                          : Colors.black,
+                    ),
+                  ),
                 ],
               )
             ],

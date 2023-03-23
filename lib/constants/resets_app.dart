@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class RestartWidget extends StatefulWidget {
-  RestartWidget({this.child});
+  const RestartWidget({super.key, this.child});
 
   final Widget? child;
 
@@ -22,7 +22,6 @@ class _RestartWidgetState extends State<RestartWidget> {
     setState(() {
       key = UniqueKey();
     });
-    print("ressssssssssssss");
   }
 
   @override

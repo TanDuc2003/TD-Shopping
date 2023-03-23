@@ -52,6 +52,7 @@ class AdminServices {
           body: product.toJson(),
         );
 
+        // ignore: use_build_context_synchronously
         httpErrorHandle(
           response: response,
           context: context,
@@ -77,6 +78,7 @@ class AdminServices {
         'x-auth-token': userProvider.user.token,
       });
 
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,

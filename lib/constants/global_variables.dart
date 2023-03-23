@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // String uri = "https://td-shoping-server.herokuapp.com";
 
-String ipconfig = "192.168.0.111";
+String ipconfig = "192.168.0.103";
 
 // String ipconfig = "192.168.1.8";
 String uri = "http://$ipconfig:3000";

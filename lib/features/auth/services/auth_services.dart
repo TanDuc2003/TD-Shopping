@@ -39,12 +39,12 @@ class AuthServices {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+      print(res.body);
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(
-              context, "Đăng ký Tài Khoản  thành công, hãy đăng nhập ");
+          showSnackBar(context, "Đăng ký Tài Khoản thành công, hãy đăng nhập ");
         },
       );
     } catch (e) {

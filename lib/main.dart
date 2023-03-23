@@ -9,11 +9,16 @@ import 'package:td_shoping/router.dart';
 
 void main() {
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => UserProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
+      child: const RestartWidget(
+        child: MyApp(),
       ),
-    ], child: RestartWidget(child: const MyApp())),
+    ),
   );
 }
 
